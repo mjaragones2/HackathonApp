@@ -31,6 +31,7 @@ namespace HackathonApp.Models
         public DateTime? DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }
         public HttpPostedFileBase[] ImageFile { get; set; }
+        public IList<SupportingDocument> Documents { get; set; }
     }
 
     public class SupportingDocument
@@ -38,4 +39,5 @@ namespace HackathonApp.Models
         public int Id { get; set; }
         public string Path { get; set; }
     }
+
 }

@@ -55,5 +55,12 @@ namespace HackathonApp.Controllers
             return View();
         }
         
+        public ActionResult ListOfFunds()
+        {
+            var db = new ApplicationDbContext();
+            var userid = User.Identity.GetUserId();
+            var getfunds = db.Funds.Where(x => x.Userid == userid).ToList();
+            return View(getfunds);
+        }
     }
 }
