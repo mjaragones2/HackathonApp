@@ -40,50 +40,20 @@ namespace HackathonApp.Controllers
                 {
                     if (file != null)
                     {
-
                         string name = Path.GetFileNameWithoutExtension(file.FileName);
                         string extension = Path.GetExtension(file.FileName);
                         name = name + extension;
                         var path = Path.Combine(Server.MapPath("~/Documents/"), name);
                         file.SaveAs(path);
+
+                        var docs = new FundDocument { Created_at = DateTime.Now, Fundid = fund.Id, Path = name, UserId = getuser };
+                        db.SaveChanges();
                     }
                 }
+                
             }
             return View();
         }
         
-
-        public ActionResult UploadDocuments()
-        {
-            var db = new ApplicationDbContext();
-            var getuser = User.Identity.GetUserId();
-            var getrecent = db.Funds.Where(x => x.Userid == getuser).OrderByDescending(p => p.Id).FirstOrDefault();
-            List<SupportingDocument> supportingDocuments = new List<SupportingDocument>();
-            FundViewModel viewModel = new FundViewModel();
-            if(getrecent != null)
-            {
-                var getdocs = db.Documents.Where(x => x.Fundid == getrecent.Id).ToList();
-                if(getdocs.Count > 0)
-                {
-                    foreach(var doc in getdocs)
-                    {
-                        supportingDocuments.Add(new SupportingDocument { Id = doc.Id, Path = doc.Path });
-                    }
-                    viewModel.Documents = supportingDocuments;
-                }
-            }
-            
-            return View(viewModel);
-        }
-
-        [HttpPost]
-        public ActionResult UploadDocuments(FundViewModel model)
-        {
-            var db = new ApplicationDbContext();
-            
-            
-
-            return View();
-        }
     }
 }
