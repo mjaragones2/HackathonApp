@@ -282,7 +282,6 @@
     <Content Include="Views\Manage\UserDetails.cshtml" />
     <Content Include="Views\Manage\EditProfile.cshtml" />
     <Content Include="Views\Fund\CreateFundProject.cshtml" />
-    <Content Include="Views\Fund\UploadDocuments.cshtml" />
     <Content Include="Views\Fund\ListOfFunds.cshtml" />
   </ItemGroup>
   <ItemGroup>
