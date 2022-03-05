@@ -32,7 +32,7 @@ namespace HackathonApp.Controllers
             var getuser = User.Identity.GetUserId();
             if(ModelState.IsValid)
             {
-                Fund fund = new Fund { AmountNeeded = model.AmountNeeded, AmountAcquired = 0, DateCreated = DateTime.Now, DateEnd = model.DateEnd, DateUpdated = model.DateUpdated, Story = model.Story, Title = model.Title, Userid = getuser };
+                Fund fund = new Fund { AmountNeeded = model.AmountNeeded, AmountAcquired = 0, DateCreated = DateTime.Now, DateEnd = model.DateEnd, DateUpdated = DateTime.Now, Story = model.Story, Title = model.Title, Userid = getuser };
                 db.Funds.Add(fund);
                 db.SaveChanges();
 
