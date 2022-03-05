@@ -36,7 +36,7 @@ namespace HackathonApp.Controllers
                 db.Funds.Add(fund);
                 db.SaveChanges();
 
-                foreach (HttpPostedFileBase file in model.File)
+                foreach (HttpPostedFileBase file in model.ImageFile)
                 {
                     if (file != null)
                     {
