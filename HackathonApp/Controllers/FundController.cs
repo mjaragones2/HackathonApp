@@ -221,42 +221,8 @@ namespace HackathonApp.Controllers
             var userid = User.Identity.GetUserId();
             if(ModelState.IsValid)
             {
-                var getfunddetail = db.Funds.Where(x => x.Id == model.Fundid).FirstOrDefault();
-                getfunddetail.AmountAcquired += model.AmountGiven;
-                db.Entry(getfunddetail).State = EntityState.Modified;
-                db.SaveChanges();
-
-                var fundt = new FundTransaction
-                {
-                    AmountGiven = model.AmountGiven,
-                    DateCreated = DateTime.Now,
-                    Fundid = model.Fundid,
-                    Userid = userid,
-                    Message = model.Message
-                };
-                db.FundTransactions.Add(fundt);
-                db.SaveChanges();
-
-                var checkwallet = db.Wallet.Where(x => x.Userid == userid).FirstOrDefault();
-                if(checkwallet == null)
-                {
-                    var wallet = new EWallet
-                    {
-                        Balance = model.AmountGiven.Value,
-                        DateCreated = DateTime.Now,
-                        DateUpdated = DateTime.Now,
-                        Userid = userid
-                    };
-                    db.Wallet.Add(wallet);
-                    db.SaveChanges();
-                }
-                else
-                {
-                    checkwallet.Balance += model.AmountGiven.Value;
-                    checkwallet.DateUpdated = DateTime.Now;
-                    db.Entry(checkwallet).State = EntityState.Modified;
-                    db.SaveChanges();
-                }
+                return RedirectToAction("PaymentWithPaypal", "Paypal", new { AmountGiven = model.AmountGiven, Fundid = model.Fundid, Message = model.Message });
+                
             }
             return RedirectToAction("Index", "Home");
         }
