@@ -19,7 +19,6 @@ select,
 textarea {
     max-width: 280px;
 }
-
 .appName {
     font-family: Rubik One, sans-serif;
 }
@@ -27,14 +26,13 @@ textarea {
 .nav-item {
     color: black;
 }
-
 .jumbotron {
     margin: 0px;
     padding: 0px;
     height: 600px;
     background-image: url('../images/bg 1.jpg');
     background-size: cover;
-    background-repeat: no-repeat;
+    background-repeat:no-repeat;
     border: 1px solid #FFFFFF;
 }
 
@@ -47,38 +45,54 @@ textarea {
     font-size: 125px;
     color: #000000;
 }
-
 .section2 {
     border: 1px solid #FFFFFF;
     background: linear-gradient(38.45deg, #E4F1FF 41.14% /*bottom-right color*/, rgba(228, 241, 255, 0) 57.65% /*top-left color*/ ),linear-gradient(to bottom right, #E4F1FF 41.14% /*bottom-right color*/, rgba(228, 241, 255, 0) 57.65% /*top-left color*/ );
 }
-
-    .section2 h1 {
-        font-family: Roboto;
-        font-style: normal;
-        font-weight: 500;
-        font-size: 25px;
-        line-height: 29px;
-        color: #333333;
-    }
-
+.section2 h1{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 29px;
+    color: #333333;
+}
 .section3 {
     background-image: url('../images/How it works.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     border: 1px solid #FFFFFF;
 }
-
 .section4 {
     background-image: url('../images/Meet the developers.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     border: 1px solid #FFFFFF;
 }
-
 #bt {
     background-color: #F9A85A;
-    border-style: none;
+    border-style:none;
+}
+#cb {
+    background: rgba(109, 175, 254, 0.7);
+    border-radius: 10%;
+}
+.or-label {
+    flex-grow: 1;
+    margin: 0 15px;
+    text-align: center
+}
+.line-separator {
+    background-color: black;
+    flex-grow: 5;
+    height: 1px
+}
+
+.or-container {
+    align-items: center;
+    color: black;
+    display: flex;
+    margin: 25px 0
 }
 /*
  * Media Queries
@@ -87,7 +101,7 @@ textarea {
 @media (min-width: 576px) {
     .jumbotron {
         background-image: url('../images/bg 1.jpg');
-        background-position: center;
+        background-position:center;
         background-size: cover;
         background-repeat: no-repeat;
     }

@@ -16,9 +16,6 @@ namespace HackathonApp.Controllers
         public ActionResult PaymentWithPaypal(decimal? AmountGiven, int? Fundid, string Message, string Cancel = null)
         {
             //getting the apiContext  
-            Session["AmountGiven"] = AmountGiven;
-            Session["Fundid"] = Fundid;
-            Session["Message"] = Message;
             APIContext apiContext = PaypalConfiguration.GetAPIContext();
             try
             {
@@ -72,12 +69,12 @@ namespace HackathonApp.Controllers
             }
             //on successful payment, show success page to user.
             //
-            decimal amount = decimal.Parse(Session["AmountGiven"].ToString());
-            int fundid = int.Parse(Session["Fundid"].ToString());
-            string message = Session["Message"].ToString();
+            decimal amount = decimal.Parse(Session["amount"].ToString());
+            int fundid = int.Parse(Session["fundid"].ToString());
+            string message = Session["messa"].ToString();
             var userid = User.Identity.GetUserId();
             var db = new ApplicationDbContext();
-            var getfunddetail = db.Funds.Where(x => x.Id == Fundid).FirstOrDefault();
+            var getfunddetail = db.Funds.Where(x => x.Id == fundid).FirstOrDefault();
             getfunddetail.AmountAcquired += amount;
             db.Entry(getfunddetail).State = EntityState.Modified;
             db.SaveChanges();
@@ -118,9 +115,6 @@ namespace HackathonApp.Controllers
         private PayPal.Api.Payment payment;
         private Payment ExecutePayment(APIContext apiContext, string payerId, string paymentId)
         {
-            Session["AmountGiven"] = Session["AmountGiven"].ToString();
-            Session["Fundid"] = Session["Fundid"].ToString();
-            Session["Message"] = Session["Message"].ToString();
             var paymentExecution = new PaymentExecution()
             {
                 payer_id = payerId
@@ -134,9 +128,6 @@ namespace HackathonApp.Controllers
         private Payment CreatePayment(APIContext apiContext, string redirectUrl)
         {
             //create itemlist and add item objects to it  
-            Session["AmountGiven"] = Session["AmountGiven"].ToString();
-            Session["Fundid"] = Session["Fundid"].ToString();
-            Session["Message"] = Session["Message"].ToString();
             var itemList = new ItemList()
             {
                 items = new List<Item>()
@@ -146,7 +137,7 @@ namespace HackathonApp.Controllers
             {
                 name = "Fund",
                 currency = "PHP",
-                price = ""+ Session["AmountGiven"].ToString(),
+                price = ""+ Session["amount"].ToString(),
                 quantity = "1",
                 sku = "sku"
             });
@@ -165,13 +156,13 @@ namespace HackathonApp.Controllers
             {
                 tax = "0",
                 shipping = "0",
-                subtotal = "" + Session["AmountGiven"].ToString()
+                subtotal = "" + Session["amount"].ToString()
             };
             //Final amount with details  
             var amount = new Amount()
             {
                 currency = "PHP",
-                total = "" + Session["AmountGiven"].ToString(), // Total must be equal to sum of tax, shipping and subtotal.  
+                total = "" + Session["amount"].ToString(), // Total must be equal to sum of tax, shipping and subtotal.  
                 details = details
             };
             var transactionList = new List<Transaction>();

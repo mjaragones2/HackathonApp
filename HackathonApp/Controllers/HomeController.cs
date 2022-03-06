@@ -25,33 +25,68 @@ namespace HackathonApp.Controllers
                     return RedirectToAction("UserAccounts", "Admin");
                 }
             }
+            HomeViewModel model = new HomeViewModel();
             List<FundViewModel> viewModels = new List<FundViewModel>();
-            var listoffunds = db.Funds.ToList();
+            var listoffunds = db.Funds.Take(4).ToList();
             if(listoffunds.Count > 0)
             {
                 foreach(var fund in listoffunds)
                 {
-                    var imagefile = new[] { ".png", ".jpg", ".jpeg", ".jiff", ".gif" };
-                    var getonepic = db.Documents.Where(x => x.Fundid == fund.Id && imagefile.Contains(x.Path)).FirstOrDefault();
+                    var getreact = db.Like.Where(x => x.Userid == userid && x.Fundid == fund.Id).FirstOrDefault();
+                    var getonepic = db.Documents.Where(x => x.Fundid == fund.Id && x.Filetype == "Image").FirstOrDefault();
                     if(getonepic != null)
                     {
-                        viewModels.Add(new FundViewModel { Id = fund.Id, AmountNeeded = fund.AmountNeeded.Value, AmountAcquired = fund.AmountAcquired, DateCreated = fund.DateCreated, Title = fund.Title, Story = fund.Story, DateUpdated = fund.DateUpdated, DateEnd = fund.DateEnd.Value, Path = getonepic.Path });
+                        if(getreact != null)
+                        {
+                            viewModels.Add(new FundViewModel { Id = fund.Id, AmountNeeded = fund.AmountNeeded.Value, AmountAcquired = fund.AmountAcquired, DateCreated = fund.DateCreated, Title = fund.Title, Story = fund.Story, DateUpdated = fund.DateUpdated, DateEnd = fund.DateEnd.Value, Path = getonepic.Path, IsLiked = getreact.IsLiked });
+                        }
+                        else
+                        {
+                            viewModels.Add(new FundViewModel { Id = fund.Id, AmountNeeded = fund.AmountNeeded.Value, AmountAcquired = fund.AmountAcquired, DateCreated = fund.DateCreated, Title = fund.Title, Story = fund.Story, DateUpdated = fund.DateUpdated, DateEnd = fund.DateEnd.Value, Path = getonepic.Path, IsLiked = false });
+                        }
+                        
                     }
                     else
                     {
-                        viewModels.Add(new FundViewModel { Id = fund.Id, AmountNeeded = fund.AmountNeeded.Value, AmountAcquired = fund.AmountAcquired, DateCreated = fund.DateCreated, Title = fund.Title, Story = fund.Story, DateUpdated = fund.DateUpdated, DateEnd = fund.DateEnd.Value });
+                        if (getreact != null)
+                        {
+                            viewModels.Add(new FundViewModel { Id = fund.Id, AmountNeeded = fund.AmountNeeded.Value, AmountAcquired = fund.AmountAcquired, DateCreated = fund.DateCreated, Title = fund.Title, Story = fund.Story, DateUpdated = fund.DateUpdated, DateEnd = fund.DateEnd.Value, Path = getonepic.Path, IsLiked = getreact.IsLiked });
+                        }
+                        else
+                        {
+                            viewModels.Add(new FundViewModel { Id = fund.Id, AmountNeeded = fund.AmountNeeded.Value, AmountAcquired = fund.AmountAcquired, DateCreated = fund.DateCreated, Title = fund.Title, Story = fund.Story, DateUpdated = fund.DateUpdated, DateEnd = fund.DateEnd.Value, Path = getonepic.Path, IsLiked = false });
+                        }
                     }
                     
                 }
             }
-            
-            return View();
+            model.FundViews = viewModels;
+            return View(model);
+        }
+        [Authorize]
+        [HttpPost]
+        public ActionResult Index(HomeViewModel model)
+        {
+            var db = new ApplicationDbContext();
+            var userid = User.Identity.GetUserId();
+            Session["fundid"] = model.Id;
+            Session["messa"] = model.Message;
+            Session["amount"] = model.AmountGiven;
+            return RedirectToAction("PaymentWithPaypal", "Paypal", new { AmountGiven = model.AmountGiven, Fundid = model.Id, Message = model.Message });
         }
 
+        [Authorize]
         [HttpPost]
-        public ActionResult Index(string id)
+        public ActionResult AddFund(HomeViewModel model)
         {
-            return View();
+            var db = new ApplicationDbContext();
+            var userid = User.Identity.GetUserId();
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("PaymentWithPaypal", "Paypal", new { AmountGiven = model.AmountGiven, Fundid = model.Fundid, Message = model.Message });
+
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         [Authorize]
@@ -77,20 +112,20 @@ namespace HackathonApp.Controllers
             return RedirectToAction("Index");
         }
 
+
         [Authorize]
-        [HttpPost]
-        public ActionResult IReact(FundViewModel model)
+        public ActionResult IReact(int? id)
         {
             var db = new ApplicationDbContext();
             var userid = User.Identity.GetUserId();
-            if(model.Id > 0)
+            if(id > 0)
             {
-                var checkreact = db.Like.Where(x => x.Userid == userid && x.Fundid == model.Id).FirstOrDefault();
+                var checkreact = db.Like.Where(x => x.Userid == userid && x.Fundid == id).FirstOrDefault();
                 if(checkreact == null || checkreact.IsLiked == false)
                 {
                     var react = new LikeReact
                     {
-                        Fundid = model.Id,
+                        Fundid = (int)id,
                         IsLiked = true,
                         Userid = userid
                     };

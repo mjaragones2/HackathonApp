@@ -31,6 +31,7 @@ namespace HackathonApp.Models
         public DateTime? DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }
         public string Path { get; set; }
+        public bool IsLiked { get; set; }
         public HttpPostedFileBase[] ImageFile { get; set; }
         public string CommentMessage { get; set; }
         public IList<SupportingDocument> Documents { get; set; }
@@ -42,6 +43,25 @@ namespace HackathonApp.Models
     {
         public int Id { get; set; }
         public string Path { get; set; }
+    }
+
+    public class HomeViewModel
+    {
+        public int Fundid { get; set; }
+        public int Id { get; set; }
+        public string CommentMessage { get; set; }
+        public IList<FundViewModel> FundViews { get; set; }
+        public IList<SupportingDocument> Documents { get; set; }
+        public IList<LikeReact> LikeReacts { get; set; }
+        public IList<CommentViewModel> Comments { get; set; }
+        
+        public string Message { get; set; }
+        
+        public decimal AmountGiven { get; set; }
+        public DateTime? DateCreated { get; set; }
+        public DateTime? DateUpdated { get; set; }
+        public string FunderName { get; set; }
+        public string BenefName { get; set; }
     }
 
 }

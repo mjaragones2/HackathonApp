@@ -237,18 +237,7 @@ namespace HackathonApp.Controllers
 
 
         // Adding money from the funders
-        [HttpPost]
-        public ActionResult AddFund(AddFundViewModel model)
-        {
-            var db = new ApplicationDbContext();
-            var userid = User.Identity.GetUserId();
-            if(ModelState.IsValid)
-            {
-                return RedirectToAction("PaymentWithPaypal", "Paypal", new { AmountGiven = model.AmountGiven, Fundid = model.Fundid, Message = model.Message });
-                
-            }
-            return RedirectToAction("Index", "Home");
-        }
+        
 
 
     }
