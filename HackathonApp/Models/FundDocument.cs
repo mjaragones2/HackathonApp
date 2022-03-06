@@ -11,6 +11,7 @@ namespace HackathonApp.Models
         public string Path { get; set; }
         public virtual Fund Fund { get; set; }
         public int Fundid { get; set; }
+        public string Filetype { get; set; }
         public virtual ApplicationUser User { get; set; }
         public string UserId { get; set; }
         public DateTime? Created_at { get; set; }

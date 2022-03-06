@@ -246,6 +246,10 @@
     <Compile Include="Migrations\202203060508257_AddLike.designer.cs">
       <DependentUpon>202203060508257_AddLike.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202203060626509_AddingFileType.cs" />
+    <Compile Include="Migrations\202203060626509_AddingFileType.designer.cs">
+      <DependentUpon>202203060626509_AddingFileType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AddFundViewModel.cs" />
@@ -339,6 +343,7 @@
     <Folder Include="Documents\" />
     <Folder Include="images\" />
     <Folder Include="NewFolder1\" />
+    <Folder Include="Videos\" />
     <Folder Include="Views\Paypal\" />
   </ItemGroup>
   <ItemGroup>
@@ -402,6 +407,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202203060508257_AddLike.resx">
       <DependentUpon>202203060508257_AddLike.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203060626509_AddingFileType.resx">
+      <DependentUpon>202203060626509_AddingFileType.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

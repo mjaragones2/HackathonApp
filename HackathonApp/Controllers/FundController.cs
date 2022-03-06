@@ -169,13 +169,36 @@ namespace HackathonApp.Controllers
                         {
                             string name = Path.GetFileNameWithoutExtension(file.FileName);
                             string extension = Path.GetExtension(file.FileName);
+                            var imagees = new[] { ".png", ".gif", ".jpeg", ".jpg", ".jiff" };
+                            var docfiles = new[] { ".ppt", ".pptx", ".docx", ".pdf" };
+                            var videofiles = new[] { ".mkv", ".mp4", ".mov" };
                             var myfile = name + extension;
-                            var path = Path.Combine(Server.MapPath("~/Documents/"), myfile);
-                            file.SaveAs(path);
+                            if(imagees.Contains(extension))
+                            {
+                                var path = Path.Combine(Server.MapPath("~/images/"), myfile);
+                                file.SaveAs(path);
+                                var fundoc = new FundDocument { Fundid = model.Id, Path = myfile, UserId = getfund.Userid, Created_at = DateTime.Now, Filetype = "Image" };
+                                db.Documents.Add(fundoc);
+                                db.SaveChanges();
+                            }
+                            else if(docfiles.Contains(extension))
+                            {
+                                var path = Path.Combine(Server.MapPath("~/Documents/"), myfile);
+                                file.SaveAs(path);
+                                var fundoc = new FundDocument { Fundid = model.Id, Path = myfile, UserId = getfund.Userid, Created_at = DateTime.Now, Filetype = "Doc" };
+                                db.Documents.Add(fundoc);
+                                db.SaveChanges();
+                            }
+                            else if(videofiles.Contains(extension))
+                            {
+                                var path = Path.Combine(Server.MapPath("~/Videos/"), myfile);
+                                file.SaveAs(path);
+                                var fundoc = new FundDocument { Fundid = model.Id, Path = myfile, UserId = getfund.Userid, Created_at = DateTime.Now, Filetype = "Video" };
+                                db.Documents.Add(fundoc);
+                                db.SaveChanges();
+                            }
 
-                            var fundoc = new FundDocument { Fundid = model.Id, Path = myfile, UserId = getfund.Userid, Created_at = DateTime.Now };
-                            db.Documents.Add(fundoc);
-                            db.SaveChanges();
+                            
                         }
                     }
                 }
