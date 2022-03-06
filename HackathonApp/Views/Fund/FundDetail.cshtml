@@ -4,80 +4,131 @@
     ViewBag.Title = "FundDetail";
 }
 
-<h2>FundDetail</h2>
+<div class="section5">
+    <div class="col-md-6 py-5 mx-auto">
+    <div class="contianer">
+    <div class="card shadow-lg border-0">
+        <div class="card-body">
+            <div>
+                @if (Model.Documents.Count > 0 || Model.Documents != null)
+                {
+                    foreach (var doc in Model.Documents)
+                    {
 
-<div>
-    <h4>FundViewModel</h4>
-    <hr />
-    <div>
-        @if(Model.Documents.Count > 0 || Model.Documents != null)
-        {
-            foreach(var doc in Model.Documents)
-            {
-                <img src="@Url.Content("~/Documents/"+ doc.Path)" width="150" />
-            }
-        }
+                        if (doc.FileType == "Image")
+                        {
+                            <img src="@Url.Content("~/Documents/"+ doc.Path)" width="150" />
+                        }
+                        else if (doc.FileType == "Video")
+                        {
+                            <video width="320" height="240" controls>
+                                <source src="@Url.Content("~/Videos/"+doc.Path)" />
+                            </video>
+                        }
+                        else if (doc.FileType == "Doc")
+                        {
+                            @Html.ActionLink(doc.Path, "Download", new { fileName = doc.Path });
+                        }
+                    }
+                }
+            </div>
+            <hr />
+            <div class="form-floating mb-3">
+                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-12">
+                    <input type="text" class="form-control" value="@Model.Title" disabled />
+                </div>
+            </div>
+
+            <div class="form-floating mb-3">
+                @Html.LabelFor(model => model.Story, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-12">
+                    <textarea type="text" class="form-control" disabled>@Model.Story</textarea>
+                </div>
+            </div>
+
+            <div class="form-floating mb-3">
+                @Html.LabelFor(model => model.AmountNeeded, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-12">
+                    <input type="text" class="form-control" value="@Model.AmountNeeded" disabled />
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                @Html.LabelFor(model => model.AmountAcquired, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-12">
+                    <input type="text" class="form-control" value="@Model.AmountAcquired" disabled />
+                </div>
+            </div>
+
+            <div class="form-floating mb-3">
+                @Html.LabelFor(model => model.DateEnd, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-12">
+                    <input type="text" class="form-control" value="@Model.DateEnd" disabled />
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                @Html.LabelFor(model => model.DateCreated, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-12">
+                    <input type="text" class="form-control" value="@Model.DateCreated" disabled />
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                @Html.LabelFor(model => model.DateEnd, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-12">
+                    <input type="text" class="form-control" value="@Model.DateUpdated" disabled />
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="form-group">
+                <div class="col-md-offset-5 col-md-10">
+                    <input type="submit" value="Donate" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary" />
+                </div>
+            </div>
+            <div class="py-3">
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        </div>
     </div>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Story)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Story)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AmountNeeded)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AmountNeeded)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AmountAcquired)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AmountAcquired)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DateEnd)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DateEnd)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DateCreated)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DateCreated)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DateUpdated)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DateUpdated)
-        </dd>
-
-    </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "EditFundDetail", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+</div>
+</div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Donation Info</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @using (Html.BeginForm("AddFund", "Fund", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.HiddenFor(model => model.Id)
+                    
+                    <div class="modal-body">
+                        Message
+                    </div>
+                    <div class="modal-body">
+                        @Html.EditorFor(model => model.Message, new { htmlAttributes = new { @class = "form-control", @required = true } })
+                    </div>
+                    <div class="modal-body">
+                        Amount To Be Given
+                    </div>
+                    <div class="modal-body">
+                        @Html.EditorFor(model => model.AmountGiven, new { htmlAttributes = new { @class = "form-control", @required = true } })
+                    </div>
+                    <div class="modal-footer">
+
+                        <input type="submit" class="btn btn-primary" value="Proceed" />
+                    </div>
+                    }
+
+
+            </div>
+        </div>
+    </div>
+
+
+

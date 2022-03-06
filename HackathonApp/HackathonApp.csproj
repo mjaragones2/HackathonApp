@@ -289,6 +289,8 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="images\bg 1.jpg" />
+    <Content Include="images\c.jpg" />
+    <Content Include="images\d.jpg" />
     <Content Include="images\homesketch.png" />
     <Content Include="images\homesketch220110709.png" />
     <Content Include="images\homesketch220402512.png" />
@@ -299,7 +301,9 @@
     <Content Include="images\icon3.png" />
     <Content Include="images\like.png" />
     <Content Include="images\logo.png" />
+    <Content Include="images\m.jpg" />
     <Content Include="images\Meet the developers.jpg" />
+    <Content Include="images\s.jpg" />
     <Content Include="images\Sign up.jpg" />
     <Content Include="images\unlike.png" />
     <Content Include="Profiles\user.png" />
@@ -462,6 +466,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\ViewMoreFunds.cshtml" />
     <Content Include="Views\Home\FAQ.cshtml" />
+    <Content Include="Views\Home\Works.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

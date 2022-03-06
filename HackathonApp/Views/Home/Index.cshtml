@@ -1,11 +1,27 @@
 ﻿@model HackathonApp.Models.HomeViewModel
 @{ ViewBag.Title = "Home Page"; }
+
+@if (User.Identity.IsAuthenticated)
+{
+
+
+}
+<div class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="inav">
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><a class="nav-link" href="#hiw" style="color:black;">How it Works?</a></li>
+            <li class="nav-item"><a class="nav-link" href="#au" style="color:black;">About Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="#hf" style="color:black;">Featured Funds</a></li>
+            <li class="nav-item"><a class="nav-link" href="#faq" style="color:black;">FAQ`s</a></li>
+        </ul>
+    </div>
+</div>
 <div class="jumbotron">
     <div class="title-name">
         <div class="container">
             <h1>Heand</h1>
             <p class="lead">Giving you a helping hand</p>
-            <p class="lead"><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+            <p class="lead"><a href="#" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
         </div>
     </div>
 </div>
@@ -31,67 +47,19 @@
                     <p class="card-text text-muted text-truncate">
                         @item.Story
                     </p>
-                    <a class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModal" id="bt">Donate Now!</a>
+                    <input type="button" class="btn btn-primary btn-lg" id="bt" onclick="location.href = '@Url.Action("FundDetail","Fund", new { id = item.Id })'" value="Donate Now!"/>
                     @if (item.IsLiked == true)
                     {
-<img src="~/images/unlike.png" style="cursor: pointer; margin-left: 50px;" onclick="location.href='@Url.Action("IReact", "Home", new { id = item.Id })'" width="40" height="40" /> }
+                    <img src="~/images/unlike.png" style="cursor: pointer; margin-left: 50px;" onclick="location.href='@Url.Action("IReact", "Home", new { id = item.Id })'" width="40" height="40" /> }
                     else
                     {
-<img src="~/images/like.png" style="cursor: pointer; margin-left: 50px; " onclick="location.href='@Url.Action("IReact", "Home", new { id = item.Id })'" width="40" height="40" />}
-                </div>
-            </div>
-        </div>
-
-                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                        {
-                    @Html.HiddenFor(model => model.Id)
-                                            <div class="modal-body">
-                                                @if (Model.Documents.Count > 0 || Model.Documents != null)
-                                                {
-                                                    foreach (var doc in Model.Documents)
-                                                    {
-                                                        if (doc.FileType == "Image" && doc.Fundid == item.Id)
-                                                        {
-                                                            <img src="@Url.Content("~/images/"+doc.Path)" width="50" />
-                                                        }
-                                                        else if (doc.FileType == "Video" && doc.Fundid == item.Id)
-                                                        {
-                                                            <video width="320" height="240" controls>
-                                                                <source src="@Url.Content("~/Videos/"+doc.Path)" />
-                                                            </video>
-                                                        }
-                                                        else if (doc.FileType == "Doc" && doc.Fundid == item.Id)
-                                                        {
-                                                            @Html.ActionLink(doc.Path, "Download", new { fileName = doc.Path });
-                                                        }
-                                                    }
-                                                }
-                                            </div>
-                                                                    <div class="modal-body">
-                                                                        @Html.EditorFor(model => model.Message, new { htmlAttributes = new { @class = "form-control", @required = true } })
-                                                                    </div>
-                                                                                            <div class="modal-body">
-                                                                                                @Html.EditorFor(model => model.AmountGiven, new { htmlAttributes = new { @class = "form-control", @required = true } })
-                                                                                            </div>
-                                                                                                                    <div class="modal-footer">
-
-                                                                                                                        <input type="submit" class="btn btn-primary" value="Proceed" />
-                                                                                                                    </div>}
-
-
+                    <img src="~/images/like.png" style="cursor: pointer; margin-left: 50px; " onclick="location.href='@Url.Action("IReact", "Home", new { id = item.Id })'" width="40" height="40" />}
                                     </div>
                                 </div>
-                            </div>}
-                                        }
+                            </div>
+
+                        }
+                    }
 
 
                 </div>

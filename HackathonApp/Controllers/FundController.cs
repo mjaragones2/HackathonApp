@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Web;
 using System.Web.Mvc;
 
@@ -90,13 +91,37 @@ namespace HackathonApp.Controllers
                     {
                         foreach(var doc in getdocs)
                         {
-                            viewModel.Documents.Add(new SupportingDocument { Id = doc.Id, Path = doc.Path });
+                            viewModel.Documents.Add(new SupportingDocument { Id = doc.Id, Path = doc.Path, FileType = doc.Filetype, Fundid = doc.Fundid });
                         }
                         
                     }
                 }
             }
             return View(viewModel);
+        }
+
+        public FileResult Download(string fileName)
+        {
+            string myfile = fileName.Replace("~/Documents/", "");
+            string fullPath = Path.Combine(Server.MapPath("../Documents"), myfile);
+            byte[] fileBytes = System.IO.File.ReadAllBytes(fullPath);
+            return File(fileBytes, MediaTypeNames.Application.Octet, fileName);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult AddFund(HomeViewModel model)
+        {
+            var db = new ApplicationDbContext();
+            var userid = User.Identity.GetUserId();
+            if (ModelState.IsValid)
+            {
+                Session["fundid"] = model.Id;
+                Session["messa"] = model.Message;
+                Session["amount"] = model.AmountGiven;
+                return RedirectToAction("PaymentWithPaypal", "Paypal", new { AmountGiven = model.AmountGiven, Fundid = model.Id, Message = model.Message });
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult EditFundDetail(int? id)

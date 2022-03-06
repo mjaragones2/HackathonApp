@@ -215,6 +215,7 @@ namespace HackathonApp.Controllers
             return RedirectToAction("Index");
         }
 
+
         public ActionResult FAQ()
         {
             return View();
@@ -228,11 +229,71 @@ namespace HackathonApp.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            var db = new ApplicationDbContext();
+            var userid = User.Identity.GetUserId();
+            if (userid != null)
+            {
+                var getdetail = db.Users.Where(x => x.Id == userid).FirstOrDefault();
+                var getrole = getdetail.Roles.Where(x => x.UserId == userid).FirstOrDefault();
+                var selectrole = db.Roles.Where(x => x.Id == getrole.RoleId).FirstOrDefault();
+                if (selectrole.Name == "Admin")
+                {
+                    return RedirectToAction("UserAccounts", "Admin");
+                }
+            }
+            HomeViewModel model = new HomeViewModel();
+            List<FundViewModel> viewModels = new List<FundViewModel>();
+            List<SupportingDocument> supportingDocuments = new List<SupportingDocument>();
+            var listoffunds = db.Funds.Take(4).ToList();
+            var listofdocs = db.Documents.ToList();
+            if (listofdocs.Count > 0)
+            {
+                foreach (var doc in listofdocs)
+                {
+                    supportingDocuments.Add(new SupportingDocument { FileType = doc.Filetype, Path = doc.Path, Id = doc.Id, Fundid = doc.Fundid, Userid = userid });
+                }
+            }
+            if (listoffunds.Count > 0)
+            {
+                foreach (var fund in listoffunds)
+                {
+                    var getreact = db.Like.Where(x => x.Userid == userid && x.Fundid == fund.Id).FirstOrDefault();
+                    var getonepic = db.Documents.Where(x => x.Fundid == fund.Id && x.Filetype == "Image").FirstOrDefault();
+                    if (getonepic != null)
+                    {
+                        if (getreact != null)
+                        {
+                            viewModels.Add(new FundViewModel { Id = fund.Id, AmountNeeded = fund.AmountNeeded.Value, AmountAcquired = fund.AmountAcquired, DateCreated = fund.DateCreated, Title = fund.Title, Story = fund.Story, DateUpdated = fund.DateUpdated, DateEnd = fund.DateEnd.Value, Path = getonepic.Path, IsLiked = getreact.IsLiked, FileType = getonepic.Filetype });
+                        }
+                        else
+                        {
+                            viewModels.Add(new FundViewModel { Id = fund.Id, AmountNeeded = fund.AmountNeeded.Value, AmountAcquired = fund.AmountAcquired, DateCreated = fund.DateCreated, Title = fund.Title, Story = fund.Story, DateUpdated = fund.DateUpdated, DateEnd = fund.DateEnd.Value, Path = getonepic.Path, IsLiked = false });
+                        }
 
-            return View();
+                    }
+                    else
+                    {
+                        if (getreact != null)
+                        {
+                            viewModels.Add(new FundViewModel { Id = fund.Id, AmountNeeded = fund.AmountNeeded.Value, AmountAcquired = fund.AmountAcquired, DateCreated = fund.DateCreated, Title = fund.Title, Story = fund.Story, DateUpdated = fund.DateUpdated, DateEnd = fund.DateEnd.Value, Path = getonepic.Path, IsLiked = getreact.IsLiked, FileType = getonepic.Filetype });
+                        }
+                        else
+                        {
+                            viewModels.Add(new FundViewModel { Id = fund.Id, AmountNeeded = fund.AmountNeeded.Value, AmountAcquired = fund.AmountAcquired, DateCreated = fund.DateCreated, Title = fund.Title, Story = fund.Story, DateUpdated = fund.DateUpdated, DateEnd = fund.DateEnd.Value, Path = getonepic.Path, IsLiked = false });
+                        }
+                    }
+
+                }
+            }
+            model.Documents = supportingDocuments;
+            model.FundViews = viewModels;
+            return View(model);
         }
 
+        public ActionResult Works()
+        {
+            return View();
+        }
         
     }
 }

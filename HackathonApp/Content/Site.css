@@ -53,14 +53,14 @@ textarea {
     background: linear-gradient(38.45deg, #E4F1FF 41.14% /*bottom-right color*/, rgba(228, 241, 255, 0) 57.65% /*top-left color*/ ),linear-gradient(to bottom right, #E4F1FF 41.14% /*bottom-right color*/, rgba(228, 241, 255, 0) 57.65% /*top-left color*/ );
 }
 
-.section2 h1 {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 25px;
-    line-height: 29px;
-    color: #333333;
-}
+    .section2 h1 {
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 25px;
+        line-height: 29px;
+        color: #333333;
+    }
 
 .section3 {
     background-image: url('../images/How it works.jpg');
@@ -78,11 +78,19 @@ textarea {
 
 .section5 {
     background-image: url('../images/Sign up.jpg');
-    background-attachment: fixed;
     background-size: cover;
     background-position: 50%;
     background-repeat: no-repeat;
     border: 1px solid #FFFFFF;
+}
+
+#inav {
+    visibility: visible;
+    position: fixed;
+    height: 10px;
+    top: 17px;
+    left: 120px;
+    width: 50%;
 }
 
 .section6 {
@@ -132,6 +140,12 @@ textarea {
     }
 }
 
+@media (min-width: 576px) {
+    #inav {
+        visibility: hidden;
+    }
+}
+
 /* Medium devices (tablets, 768px and up) The navbar toggle appears at this breakpoint */
 @media (min-width: 768px) {
     .jumbotron {
@@ -139,6 +153,12 @@ textarea {
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
+    }
+}
+
+@media (min-width: 768px) {
+    #inav {
+        visibility: hidden;
     }
 }
 
@@ -152,6 +172,12 @@ textarea {
     }
 }
 
+@media (min-width: 992px) {
+    #inav {
+        visibility: hidden;
+    }
+}
+
 /* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
     .jumbotron {
@@ -159,6 +185,12 @@ textarea {
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
+    }
+}
+
+@media (min-width: 1200px) {
+    #inav {
+        visibility: hidden;
     }
 }
 
@@ -176,5 +208,11 @@ Custom media queries
         background-position: 65%;
         background-size: cover;
         background-repeat: no-repeat;
+    }
+}
+
+@media (max-width: 950px) {
+    #inav {
+        visibility: hidden;
     }
 }

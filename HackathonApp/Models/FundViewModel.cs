@@ -23,15 +23,20 @@ namespace HackathonApp.Models
         [Display(Name = "Amount Needed")]
         [Range(1, float.MaxValue, ErrorMessage = "Enter numbers starting from 1 and above")]
         public decimal AmountNeeded { get; set; }
+        [Display(Name = "Amount Aquired")]
         public decimal? AmountAcquired { get; set; }
         
         [Required]
         [Display(Name = "Target Date")]
         public DateTime DateEnd { get; set; }
+        [Display(Name = "Date Posted")]
         public DateTime? DateCreated { get; set; }
+        [Display(Name = "Date Edited")]
         public DateTime? DateUpdated { get; set; }
         public string Path { get; set; }
         public bool IsLiked { get; set; }
+        public string Message { get; set; }
+        public decimal? AmountGiven { get; set; }
         public HttpPostedFileBase[] ImageFile { get; set; }
         public string CommentMessage { get; set; }
         public IList<SupportingDocument> Documents { get; set; }

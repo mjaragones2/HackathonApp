@@ -21,10 +21,10 @@
             </button>
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item"><a class="nav-link" href="#hiw" style="color:black;">How it Works?</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#au" style="color:black;">About Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#hf" style="color:black;">Featured Funds</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#faq" style="color:black;">FAQ's</a></li>
+                    <li class="nav-item">@Html.ActionLink("How Does It Work?", "Works", "Home", routeValues: null, htmlAttributes: new { @class = "nav-link", @style = "color:black;" })</li>
+                    <li class="nav-item">@Html.ActionLink("About Us", "About", "Home", routeValues: null, htmlAttributes: new { @class = "nav-link", @style = "color:black;" })</li>
+                    <li class="nav-item">@Html.ActionLink("Featured Funds", "Contact", "Home", routeValues: null, htmlAttributes: new { @class = "nav-link", @style = "color:black;" })</li>
+                    <li class="nav-item">@Html.ActionLink("FAQ`s", "FAQ", "Home", routeValues: null, htmlAttributes: new { @class = "nav-link", @style = "color:black;" })</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
