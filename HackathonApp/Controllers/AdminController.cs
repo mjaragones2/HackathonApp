@@ -101,6 +101,33 @@ namespace HackathonApp.Controllers
             return View();
         }
 
+        public ActionResult DisplayFundTransactions()
+        {
+            var db = new ApplicationDbContext();
+            List<AddFundViewModel> model = new List<AddFundViewModel>();
+            var transactions = db.FundTransactions.ToList();
+            if(transactions.Count > 0)
+            {
+                foreach(var tran in transactions)
+                {
+                    var benefUser = db.Users.Where(x => x.Id == tran.ReceiverId).FirstOrDefault();
+                    var funder = db.Users.Where(x => x.Id == tran.Userid).FirstOrDefault();
+                    model.Add(new AddFundViewModel
+                    {
+                        AmountGiven = tran.AmountGiven,
+                        BenefName = benefUser.FirstName + " " + benefUser.LastName,
+                        Message = tran.Message,
+                        Fundid = tran.Fundid,
+                        FunderName = funder.FirstName + " " + funder.LastName,
+                        FundTransId = tran.Id,
+                        Userid = funder.Id,
+                        DateCreated = tran.DateCreated
+                    });
+                }
+            }
+            return View(model);
+        }
+
 
     }
 }

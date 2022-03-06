@@ -230,6 +230,10 @@
     <Compile Include="Migrations\202203060344426_AddingFundComments.designer.cs">
       <DependentUpon>202203060344426_AddingFundComments.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202203060355599_UpdateFundTrans.cs" />
+    <Compile Include="Migrations\202203060355599_UpdateFundTrans.designer.cs">
+      <DependentUpon>202203060355599_UpdateFundTrans.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AddFundViewModel.cs" />
@@ -371,6 +375,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202203060344426_AddingFundComments.resx">
       <DependentUpon>202203060344426_AddingFundComments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203060355599_UpdateFundTrans.resx">
+      <DependentUpon>202203060355599_UpdateFundTrans.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
