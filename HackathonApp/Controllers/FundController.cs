@@ -196,5 +196,19 @@ namespace HackathonApp.Controllers
 
             return RedirectToAction("EditFundDetail", new { id = id });
         }
+
+        public ActionResult DeleteFundItem(int? id)
+        {
+            var db = new ApplicationDbContext();
+            if(id > 0)
+            {
+                var getfunditem = db.Funds.Where(x => x.Id == id).FirstOrDefault();
+                db.Entry(getfunditem).State = EntityState.Deleted;
+                db.SaveChanges();
+            }
+            return View();
+        }
+
+
     }
 }
