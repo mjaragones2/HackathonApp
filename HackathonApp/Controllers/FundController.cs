@@ -57,6 +57,7 @@ namespace HackathonApp.Controllers
             return RedirectToAction("ListOfFunds");
         }
         
+
         public ActionResult ListOfFunds()
         {
             var db = new ApplicationDbContext();
@@ -184,6 +185,7 @@ namespace HackathonApp.Controllers
             return RedirectToAction("ListOfFunds");
         }
 
+        //Delete a document or image file from the Fund detail
         public ActionResult DeleteDoc(int? docid, int? id)
         {
             var db = new ApplicationDbContext();
@@ -197,6 +199,7 @@ namespace HackathonApp.Controllers
             return RedirectToAction("EditFundDetail", new { id = id });
         }
 
+        //Delete a data from Fund Table
         public ActionResult DeleteFundItem(int? id)
         {
             var db = new ApplicationDbContext();
@@ -209,6 +212,8 @@ namespace HackathonApp.Controllers
             return View();
         }
 
+
+        // Adding money from the funders
         [HttpPost]
         public ActionResult AddFund(AddFundViewModel model)
         {
@@ -255,5 +260,7 @@ namespace HackathonApp.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+
+
     }
 }

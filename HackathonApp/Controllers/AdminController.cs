@@ -19,6 +19,7 @@ namespace HackathonApp.Controllers
             return View();
         }
 
+        //List of Users
         public ActionResult UserAccounts()
         {
             var db = new ApplicationDbContext();
@@ -36,6 +37,7 @@ namespace HackathonApp.Controllers
             return View(model);
         }
 
+        //Show user detail
         public ActionResult UserDetail(string id)
         {
             var db = new ApplicationDbContext();
@@ -61,6 +63,7 @@ namespace HackathonApp.Controllers
             return View(model);
         }
 
+        //Deactivate Account
         public ActionResult Deactivate(string id)
         {
             var db = new ApplicationDbContext();
@@ -74,6 +77,7 @@ namespace HackathonApp.Controllers
             return RedirectToAction("UserAccounts");
         }
 
+        //Activate Account
         public ActionResult Activate(string id)
         {
             var db = new ApplicationDbContext();
