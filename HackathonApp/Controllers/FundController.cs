@@ -231,6 +231,27 @@ namespace HackathonApp.Controllers
                 };
                 db.FundTransactions.Add(fundt);
                 db.SaveChanges();
+
+                var checkwallet = db.Wallet.Where(x => x.Userid == userid).FirstOrDefault();
+                if(checkwallet == null)
+                {
+                    var wallet = new EWallet
+                    {
+                        Balance = model.AmountGiven.Value,
+                        DateCreated = DateTime.Now,
+                        DateUpdated = DateTime.Now,
+                        Userid = userid
+                    };
+                    db.Wallet.Add(wallet);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    checkwallet.Balance += model.AmountGiven.Value;
+                    checkwallet.DateUpdated = DateTime.Now;
+                    db.Entry(checkwallet).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
             }
             return RedirectToAction("Index", "Home");
         }
