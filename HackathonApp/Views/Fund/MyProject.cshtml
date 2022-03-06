@@ -28,7 +28,7 @@
                                         <p class="card-text text-muted text-truncate">
                                             @item.Story
                                         </p>
-                                        <input type="button" class="btn btn-primary btn-lg" id="bt" onclick="location.href = '@Url.Action("FundDetail","Fund", new { id = item.Id })'" value="Donate Now!" />
+                                        <input type="button" class="btn btn-primary btn-lg" id="bt" onclick="location.href = '@Url.Action("FundDetail","Fund", new { id = item.Id })'" value="View Detail!" />
                                         @if (item.IsLiked == true)
                                         {
                     <img src="~/images/unlike.png" style="cursor: pointer; margin-left: 50px;" onclick="location.href='@Url.Action("IReact", "Home", new { id = item.Id })'" width="40" height="40" />
@@ -64,3 +64,34 @@
     </div>
 </div>
 
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Withdraw Request Info</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Html.BeginForm())
+            {
+                string place = "@mail";
+                <div class="modal-body">
+                    @Html.HiddenFor(model => model.Id)
+                    <h5>Email</h5>
+                    <input type="email" required value="" placeholder="@place" name="Email" />
+                    <hr />
+                    <h5>Contact</h5>
+                    <input type="text" required value="" placeholder="09***" name="Contact" />
+                    <hr />
+                    <h5>Amount</h5>
+                    <input type="number" required value="" name="Amount" />
+                    <hr />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Paypal Pay</button>
+                </div>}
+
+        </div>
+    </div>
+</div>

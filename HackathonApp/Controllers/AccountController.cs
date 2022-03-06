@@ -111,7 +111,18 @@ namespace HackathonApp.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    if(UserManager.IsInRole(user.Id, "Admin"))
+                    {
+                        return RedirectToAction("UserAccounts", "Admin");
+                    }
+                    else if(UserManager.IsInRole(user.Id, Constants.ConsUser))
+                    {
+                        return RedirectToAction("MyProject", "Fund");
+                    }
+                    else
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -504,6 +515,7 @@ namespace HackathonApp.Controllers
             {
                 return Redirect(returnUrl);
             }
+
             return RedirectToAction("Index", "Home");
         }
 

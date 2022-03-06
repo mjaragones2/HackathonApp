@@ -184,5 +184,15 @@ namespace HackathonApp.Controllers
             // Create a payment using a APIContext  
             return this.payment.Create(apiContext);
         }
+
+        public ActionResult SuccessView()
+        {
+            return View();
+        }
+
+        public ActionResult FailureView()
+        {
+            return View();
+        }
     }
 }

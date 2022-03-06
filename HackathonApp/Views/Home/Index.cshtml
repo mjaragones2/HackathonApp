@@ -19,7 +19,7 @@
     <div class="container">
         <h1 class="py-5">Highlight Fundings</h1>
         <!--Carousel Wrapper-->
-        <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Request To Withdraw</button>
+        
         <br />
         <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
             <div class="carousel-inner" role="listbox">
@@ -39,15 +39,18 @@
                     <p class="card-text text-muted text-truncate">
                         @item.Story
                     </p>
-                    <input type="button" class="btn btn-primary btn-lg" id="bt" onclick="location.href = '@Url.Action("FundDetail","Fund", new { id = item.Id })'" value="Donate Now!" />
+                    @if (item.Userid != User.Identity.Name)
+                    {
+                        <input type="button" class="btn btn-primary btn-lg" id="bt" onclick="location.href = '@Url.Action("FundDetail","Fund", new { id = item.Id })'" value="Donate Now!" />
+                    }
                     @if (item.IsLiked == true)
                     {
-<img src="~/images/unlike.png" style="cursor: pointer; margin-left: 50px;" onclick="location.href='@Url.Action("IReact", "Home", new { id = item.Id })'" width="40" height="40" />
-                        @item.CountLike }
-                                            else
-                                            {
-                        <img src="~/images/like.png" style="cursor: pointer; margin-left: 50px; " onclick="location.href='@Url.Action("IReact", "Home", new { id = item.Id })'" width="40" height="40" />
-                                                @item.CountLike}
+                <img src="~/images/unlike.png" style="cursor: pointer; margin-left: 50px;" onclick="location.href='@Url.Action("IReact", "Home", new { id = item.Id })'" width="40" height="40" />
+                                        @item.CountLike }
+                                    else
+                                    {
+                <img src="~/images/like.png" style="cursor: pointer; margin-left: 50px; " onclick="location.href='@Url.Action("IReact", "Home", new { id = item.Id })'" width="40" height="40" />
+                                        @item.CountLike}
                 </div>
             </div>
         </div>}
@@ -68,7 +71,9 @@
 
     </div>
 </div>
-<div class="section3 py-5" id="hiw">
+@if(!User.Identity.IsAuthenticated)
+{
+    <div class="section3 py-5" id="hiw">
     <div class="container">
         <h1 class="py-5" style="text-align: center;">How it Works</h1>
         <!--Carousel Wrapper-->
@@ -275,35 +280,4 @@
     </div>
 </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Withdraw Request Info</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            @using (Html.BeginForm())
-            {
-                string place = "@mail";
-                <div class="modal-body">
-                    @Html.HiddenFor(model => model.Id)
-                    <h5>Email</h5>
-                    <input type="email" required value="" placeholder="@place" name="Email" />
-                    <hr />
-                    <h5>Contact</h5>
-                    <input type="text" required value="" placeholder="09***" name="Contact" />
-                    <hr />
-                    <h5>Amount</h5>
-                    <input type="number" required value="" name="Amount" />
-                    <hr />
-                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary">Paypal Pay</button>
-                                </div>
-                            }
-
-        </div>
-    </div>
-</div>
+}

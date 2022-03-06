@@ -27,10 +27,7 @@ namespace HackathonApp.Controllers
                     return RedirectToAction("UserAccounts", "Admin");
                 }
             }
-            else
-            {
-                return RedirectToAction("MyProject", "Fund");
-            }
+            
             HomeViewModel model = new HomeViewModel();
             List<FundViewModel> viewModels = new List<FundViewModel>();
             List<SupportingDocument> supportingDocuments = new List<SupportingDocument>();
@@ -48,6 +45,7 @@ namespace HackathonApp.Controllers
                 List<int> counter = new List<int>();
                 foreach (var fund in listoffunds)
                 {
+                    var getusername = db.Users.Where(x => x.Id == fund.Userid).FirstOrDefault();
                     var countreact = db.Like.Where(x => x.Fundid == fund.Id && x.IsLiked == true).ToList();
                     var getreact = db.Like.Where(x => x.Userid == userid && x.Fundid == fund.Id).FirstOrDefault();
                     var getonepic = db.Documents.Where(x => x.Fundid == fund.Id && x.Filetype == "Image").FirstOrDefault();
@@ -55,11 +53,11 @@ namespace HackathonApp.Controllers
                     {
                         if (getreact != null)
                         {
-                            viewModels.Add(new FundViewModel { Id = fund.Id, AmountNeeded = fund.AmountNeeded.Value, AmountAcquired = fund.AmountAcquired, DateCreated = fund.DateCreated, Title = fund.Title, Story = fund.Story, DateUpdated = fund.DateUpdated, DateEnd = fund.DateEnd.Value, Path = getonepic.Path, IsLiked = getreact.IsLiked, FileType = getonepic.Filetype, CountLike = countreact.Count });
+                            viewModels.Add(new FundViewModel { Id = fund.Id, AmountNeeded = fund.AmountNeeded.Value, AmountAcquired = fund.AmountAcquired, DateCreated = fund.DateCreated, Title = fund.Title, Story = fund.Story, DateUpdated = fund.DateUpdated, DateEnd = fund.DateEnd.Value, Path = getonepic.Path, IsLiked = getreact.IsLiked, FileType = getonepic.Filetype, CountLike = countreact.Count, Userid = getusername.UserName });
                         }
                         else
                         {
-                            viewModels.Add(new FundViewModel { Id = fund.Id, AmountNeeded = fund.AmountNeeded.Value, AmountAcquired = fund.AmountAcquired, DateCreated = fund.DateCreated, Title = fund.Title, Story = fund.Story, DateUpdated = fund.DateUpdated, DateEnd = fund.DateEnd.Value, Path = getonepic.Path, IsLiked = false, CountLike = countreact.Count });
+                            viewModels.Add(new FundViewModel { Id = fund.Id, AmountNeeded = fund.AmountNeeded.Value, AmountAcquired = fund.AmountAcquired, DateCreated = fund.DateCreated, Title = fund.Title, Story = fund.Story, DateUpdated = fund.DateUpdated, DateEnd = fund.DateEnd.Value, Path = getonepic.Path, IsLiked = false, CountLike = countreact.Count, Userid = getusername.UserName });
                         }
 
                     }
@@ -67,11 +65,11 @@ namespace HackathonApp.Controllers
                     {
                         if (getreact != null)
                         {
-                            viewModels.Add(new FundViewModel { Id = fund.Id, AmountNeeded = fund.AmountNeeded.Value, AmountAcquired = fund.AmountAcquired, DateCreated = fund.DateCreated, Title = fund.Title, Story = fund.Story, DateUpdated = fund.DateUpdated, DateEnd = fund.DateEnd.Value, Path = "Sign up.jpg", IsLiked = getreact.IsLiked, FileType = "Image", CountLike = countreact.Count });
+                            viewModels.Add(new FundViewModel { Id = fund.Id, AmountNeeded = fund.AmountNeeded.Value, AmountAcquired = fund.AmountAcquired, DateCreated = fund.DateCreated, Title = fund.Title, Story = fund.Story, DateUpdated = fund.DateUpdated, DateEnd = fund.DateEnd.Value, Path = "Sign up.jpg", IsLiked = getreact.IsLiked, FileType = "Image", CountLike = countreact.Count, Userid = getusername.UserName });
                         }
                         else
                         {
-                            viewModels.Add(new FundViewModel { Id = fund.Id, AmountNeeded = fund.AmountNeeded.Value, AmountAcquired = fund.AmountAcquired, DateCreated = fund.DateCreated, Title = fund.Title, Story = fund.Story, DateUpdated = fund.DateUpdated, DateEnd = fund.DateEnd.Value, Path = "Sign up.jpg", IsLiked = false, FileType = "Image", CountLike = countreact.Count });
+                            viewModels.Add(new FundViewModel { Id = fund.Id, AmountNeeded = fund.AmountNeeded.Value, AmountAcquired = fund.AmountAcquired, DateCreated = fund.DateCreated, Title = fund.Title, Story = fund.Story, DateUpdated = fund.DateUpdated, DateEnd = fund.DateEnd.Value, Path = "Sign up.jpg", IsLiked = false, FileType = "Image", CountLike = countreact.Count, Userid = getusername.UserName });
                         }
                     }
 
@@ -81,6 +79,7 @@ namespace HackathonApp.Controllers
             model.FundViews = viewModels;
             return View(model);
         }
+
 
         public FileResult Download(string fileName)
         {

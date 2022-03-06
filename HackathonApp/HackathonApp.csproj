@@ -484,13 +484,14 @@
     <Content Include="Views\Admin\DisplayFundTransactions.cshtml" />
     <Content Include="Views\Fund\MyProject.cshtml" />
     <Content Include="Views\Fund\MyProjectDetail.cshtml" />
+    <Content Include="Views\Paypal\SuccessView.cshtml" />
+    <Content Include="Views\Paypal\FailureView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Documents\" />
     <Folder Include="NewFolder1\" />
     <Folder Include="Videos\" />
-    <Folder Include="Views\Paypal\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -35,6 +35,7 @@ namespace HackathonApp.Models
         public DateTime? DateUpdated { get; set; }
         public string Path { get; set; }
         public bool IsLiked { get; set; }
+        public string Userid { get; set; }
         public string Message { get; set; }
         public decimal? AmountGiven { get; set; }
         public HttpPostedFileBase[] ImageFile { get; set; }
