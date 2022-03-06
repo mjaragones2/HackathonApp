@@ -171,7 +171,7 @@ namespace HackathonApp.Controllers
                             string extension = Path.GetExtension(file.FileName);
                             var imagees = new[] { ".png", ".gif", ".jpeg", ".jpg", ".jiff" };
                             var docfiles = new[] { ".ppt", ".pptx", ".docx", ".pdf" };
-                            var videofiles = new[] { ".mkv", ".mp4", ".mov" };
+                            var videofiles = new[] { ".WebM", ".mp4", ".ogg" };
                             var myfile = name + extension;
                             if(imagees.Contains(extension))
                             {
