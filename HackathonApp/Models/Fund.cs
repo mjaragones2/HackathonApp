@@ -17,6 +17,8 @@ namespace HackathonApp.Models
         public decimal? AmountAcquired { get; set; }
         public virtual ApplicationUser User { get; set; }
         public string Userid { get; set; }
+        public int Counter { get; set; }
+        public string Status { get; set; }
         public DateTime? DateEnd { get; set; }
         public DateTime? DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }

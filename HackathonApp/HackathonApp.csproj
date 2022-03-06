@@ -256,6 +256,18 @@
     <Compile Include="Migrations\202203060747026_UpdateDatabase.designer.cs">
       <DependentUpon>202203060747026_UpdateDatabase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202203061629403_AddStatus.cs" />
+    <Compile Include="Migrations\202203061629403_AddStatus.designer.cs">
+      <DependentUpon>202203061629403_AddStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202203061823542_AddCounter.cs" />
+    <Compile Include="Migrations\202203061823542_AddCounter.designer.cs">
+      <DependentUpon>202203061823542_AddCounter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202203061826546_UpdateCounter.cs" />
+    <Compile Include="Migrations\202203061826546_UpdateCounter.designer.cs">
+      <DependentUpon>202203061826546_UpdateCounter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AddFundViewModel.cs" />
@@ -306,6 +318,7 @@
     <Content Include="images\s.jpg" />
     <Content Include="images\Sign up.jpg" />
     <Content Include="images\unlike.png" />
+    <Content Include="images\user.png" />
     <Content Include="Profiles\user.png" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -424,7 +437,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\ContactUs.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -467,6 +480,10 @@
     <Content Include="Views\Home\ViewMoreFunds.cshtml" />
     <Content Include="Views\Home\FAQ.cshtml" />
     <Content Include="Views\Home\Works.cshtml" />
+    <Content Include="Views\Admin\PendingWithdrawRequests.cshtml" />
+    <Content Include="Views\Admin\DisplayFundTransactions.cshtml" />
+    <Content Include="Views\Fund\MyProject.cshtml" />
+    <Content Include="Views\Fund\MyProjectDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -534,6 +551,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202203060747026_UpdateDatabase.resx">
       <DependentUpon>202203060747026_UpdateDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203061629403_AddStatus.resx">
+      <DependentUpon>202203061629403_AddStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203061823542_AddCounter.resx">
+      <DependentUpon>202203061823542_AddCounter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203061826546_UpdateCounter.resx">
+      <DependentUpon>202203061826546_UpdateCounter.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

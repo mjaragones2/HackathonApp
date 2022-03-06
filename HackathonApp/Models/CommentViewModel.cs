@@ -10,6 +10,7 @@ namespace HackathonApp.Models
         public int Id { get; set; }
         public string Comment { get; set; }
         public string Fullname { get; set; }
+        public string Path { get; set; }
         public string Userid { get; set; }
         public DateTime? DateCreated { get; set; }
 

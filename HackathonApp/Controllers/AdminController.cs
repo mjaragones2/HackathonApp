@@ -129,6 +129,52 @@ namespace HackathonApp.Controllers
             return View(model);
         }
 
+        public ActionResult PendingWithdrawRequests()
+        {
+            var db = new ApplicationDbContext();
+            var getreq = db.WithdrawReq.Where(x => x.Status == "Pending").ToList();
+            List<WithdrawPaypalView> withdraws = new List<WithdrawPaypalView>();
+            ShowAdminViewModel model = new ShowAdminViewModel();
+            if(getreq.Count > 0)
+            {
+                foreach(var req in getreq)
+                {
+                    var getuser = db.Users.Where(x => x.Id == req.Userid).FirstOrDefault();
+                    withdraws.Add(new WithdrawPaypalView { Id = req.Id, Amount = req.Amount.ToString(), Contact = req.Contact, Email = req.Email, DateCreated = req.DateCreated.ToString(), Fullname = getuser.FirstName + " " + getuser.LastName });
+                }
+            }
+            model.PaypalViews = withdraws;
+            return View(model);
+        }
+
+        public ActionResult ApproveReq(int? id)
+        {
+            var db = new ApplicationDbContext();
+            if(id > 0)
+            {
+                var getdetail = db.WithdrawReq.Where(x => x.Id == id).FirstOrDefault();
+                getdetail.Status = "Approved";
+                db.Entry(getdetail).State = EntityState.Modified;
+                db.SaveChanges();
+
+            }
+            return RedirectToAction("PendingWithdrawRequests");
+        }
+
+        public ActionResult DeclineReq(int? id)
+        {
+            var db = new ApplicationDbContext();
+            if (id > 0)
+            {
+                var getdetail = db.WithdrawReq.Where(x => x.Id == id).FirstOrDefault();
+                getdetail.Status = "Declined";
+                db.Entry(getdetail).State = EntityState.Modified;
+                db.SaveChanges();
+
+            }
+            return RedirectToAction("PendingWithdrawRequests");
+        }
+
 
     }
 }

@@ -1,0 +1,38 @@
+﻿@model HackathonApp.Models.ShowAdminViewModel
+
+@{
+    ViewBag.Title = "PendingWithdrawRequests";
+}
+
+<div class="py-5">
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Email</td>
+                    <td>Amount</td>
+                    <td>Contact</td>
+                    <td>Date Created</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.PaypalViews.Count > 0 || Model.PaypalViews != null)
+                {
+                    foreach (var item in Model.PaypalViews)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Email</td>
+                            <td>@item.Amount</td>
+                            <td>@item.Contact</td>
+                            <td>@item.DateCreated</td>
+                            <td>@Html.ActionLink("Approve","ApproveReq", new { id = item.Id })</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

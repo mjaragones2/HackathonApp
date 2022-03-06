@@ -69,6 +69,7 @@ namespace HackathonApp.Controllers
             {
                 ViewBag.ErrorMessage = Session["ErrorMessage"].ToString();
                 ModelState.AddModelError("", Session["ErrorMessage"].ToString());
+                
             }
             
             ViewBag.ReturnUrl = returnUrl;
@@ -369,13 +370,7 @@ namespace HackathonApp.Controllers
             {
                 return RedirectToAction("Login");
             }
-            var db = new ApplicationDbContext();
-            var checkuser = db.Users.Where(x => x.Email == loginInfo.Email).FirstOrDefault();
-            if(checkuser != null)
-            {
-                Session["ErrorMessage"] = "This email is already been used.";
-                return RedirectToAction("Login");
-            }
+            
 
             // Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
@@ -408,11 +403,11 @@ namespace HackathonApp.Controllers
                 return RedirectToAction("Index", "Manage");
             }
             var db = new ApplicationDbContext();
-            var checkuser = UserManager.FindByEmail(model.Email);
-            if(checkuser != null)
+            var checkuser = db.Users.Where(x => x.Email == model.Email).FirstOrDefault();
+            if (checkuser != null)
             {
-                ModelState.AddModelError(model.Email, "This email is already been used.");
-                return View(model);
+                Session["ErrorMessage"] = "This email is already been used.";
+                return RedirectToAction("Login");
             }
             if (ModelState.IsValid)
             {
@@ -422,10 +417,12 @@ namespace HackathonApp.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, EmailConfirmed = true };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, EmailConfirmed = true, FirstName = model.Fname, LastName = model.Lname, Address = model.Address, Image = "user.png", DateCreated = DateTime.Now, DateUpdated = DateTime.Now, IsDelete = false };
+                
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
+                    UserManager.AddToRole(user.Id, Constants.ConsUser);
                     result = await UserManager.AddLoginAsync(user.Id, info.Login);
                     if (result.Succeeded)
                     {

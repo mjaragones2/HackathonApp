@@ -39,6 +39,7 @@ namespace HackathonApp.Models
         public decimal? AmountGiven { get; set; }
         public HttpPostedFileBase[] ImageFile { get; set; }
         public string CommentMessage { get; set; }
+        public int CountLike { get; set; }
         public IList<SupportingDocument> Documents { get; set; }
         public IList<LikeReact> LikeReacts { get; set; }
         public IList<CommentViewModel> Comments { get; set; }
@@ -63,9 +64,11 @@ namespace HackathonApp.Models
         public IList<SupportingDocument> Documents { get; set; }
         public IList<LikeReact> LikeReacts { get; set; }
         public IList<CommentViewModel> Comments { get; set; }
-        
+        public WithdrawPaypalView WithdrawPaypal { get; set; }
         public string Message { get; set; }
-        
+        public string Email { get; set; }
+        public string ContactInfo { get; set; }
+        public decimal Amount { get; set; }
         public decimal AmountGiven { get; set; }
         public DateTime? DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }

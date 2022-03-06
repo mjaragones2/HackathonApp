@@ -21,6 +21,94 @@ namespace HackathonApp.Controllers
             return View();
         }
 
+        public ActionResult MyProject()
+        {
+            var userid = User.Identity.GetUserId();
+            var db = new ApplicationDbContext();
+
+            HomeViewModel model = new HomeViewModel();
+            List<FundViewModel> viewModels = new List<FundViewModel>();
+            List<SupportingDocument> supportingDocuments = new List<SupportingDocument>();
+            var listoffunds = db.Funds.Where(x => x.Userid == userid && x.Status != "Closed").ToList();
+            var listofdocs = db.Documents.ToList();
+            if (listofdocs.Count > 0)
+            {
+                foreach (var doc in listofdocs)
+                {
+                    supportingDocuments.Add(new SupportingDocument { FileType = doc.Filetype, Path = doc.Path, Id = doc.Id, Fundid = doc.Fundid, Userid = userid });
+                }
+            }
+            if (listoffunds.Count > 0)
+            {
+                foreach (var fund in listoffunds)
+                {
+                    var countreact = db.Like.Where(x => x.Fundid == fund.Id && x.IsLiked == true).ToList();
+                    var getreact = db.Like.Where(x => x.Userid == userid && x.Fundid == fund.Id).FirstOrDefault();
+                    var getonepic = db.Documents.Where(x => x.Fundid == fund.Id && x.Filetype == "Image").FirstOrDefault();
+                    if (getonepic != null)
+                    {
+                        if (getreact != null)
+                        {
+                            viewModels.Add(new FundViewModel { Id = fund.Id, AmountNeeded = fund.AmountNeeded.Value, AmountAcquired = fund.AmountAcquired, DateCreated = fund.DateCreated, Title = fund.Title, Story = fund.Story, DateUpdated = fund.DateUpdated, DateEnd = fund.DateEnd.Value, Path = getonepic.Path, IsLiked = getreact.IsLiked, FileType = getonepic.Filetype, CountLike = countreact.Count });
+                        }
+                        else
+                        {
+                            viewModels.Add(new FundViewModel { Id = fund.Id, AmountNeeded = fund.AmountNeeded.Value, AmountAcquired = fund.AmountAcquired, DateCreated = fund.DateCreated, Title = fund.Title, Story = fund.Story, DateUpdated = fund.DateUpdated, DateEnd = fund.DateEnd.Value, Path = getonepic.Path, IsLiked = false, CountLike = countreact.Count });
+                        }
+
+                    }
+                    else
+                    {
+                        if (getreact != null)
+                        {
+                            viewModels.Add(new FundViewModel { Id = fund.Id, AmountNeeded = fund.AmountNeeded.Value, AmountAcquired = fund.AmountAcquired, DateCreated = fund.DateCreated, Title = fund.Title, Story = fund.Story, DateUpdated = fund.DateUpdated, DateEnd = fund.DateEnd.Value, Path = getonepic.Path, IsLiked = getreact.IsLiked, FileType = getonepic.Filetype, CountLike = countreact.Count });
+                        }
+                        else
+                        {
+                            viewModels.Add(new FundViewModel { Id = fund.Id, AmountNeeded = fund.AmountNeeded.Value, AmountAcquired = fund.AmountAcquired, DateCreated = fund.DateCreated, Title = fund.Title, Story = fund.Story, DateUpdated = fund.DateUpdated, DateEnd = fund.DateEnd.Value, IsLiked = false, Path = getonepic.Path, CountLike = countreact.Count });
+                        }
+                    }
+
+                }
+            }
+            model.Documents = supportingDocuments;
+            model.FundViews = viewModels;
+            return View(model);
+        }
+
+        public ActionResult MyProjectDetail(int? id)
+        {
+            var db = new ApplicationDbContext();
+            FundViewModel viewModel = new FundViewModel();
+            viewModel.Documents = new List<SupportingDocument>();
+            if (id > 0)
+            {
+                var getfund = db.Funds.Where(x => x.Id == id).FirstOrDefault();
+                if (getfund != null)
+                {
+                    viewModel.Id = getfund.Id;
+                    viewModel.Title = getfund.Title;
+                    viewModel.Story = getfund.Story;
+                    viewModel.AmountNeeded = getfund.AmountNeeded.Value;
+                    viewModel.AmountAcquired = getfund.AmountAcquired;
+                    viewModel.DateCreated = getfund.DateCreated;
+                    viewModel.DateEnd = getfund.DateEnd.Value;
+                    viewModel.DateUpdated = getfund.DateUpdated;
+
+                    var getdocs = db.Documents.Where(x => x.Fundid == getfund.Id).ToList();
+                    if (getdocs.Count > 0)
+                    {
+                        foreach (var doc in getdocs)
+                        {
+                            viewModel.Documents.Add(new SupportingDocument { Id = doc.Id, Path = doc.Path, FileType = doc.Filetype, Fundid = doc.Fundid });
+                        }
+
+                    }
+                }
+            }
+            return View(viewModel);
+        }
+
         public ActionResult CreateFundProject()
         {
 
@@ -45,17 +133,42 @@ namespace HackathonApp.Controllers
                         string name = Path.GetFileNameWithoutExtension(file.FileName);
                         string extension = Path.GetExtension(file.FileName);
                         name = name + extension;
-                        var path = Path.Combine(Server.MapPath("~/Documents/"), name);
-                        file.SaveAs(path);
+                        var videofile = new[] { ".mp4", ".mkv", ".ogg" };
+                        var imagefiles = new[] { ".jpg", ".jpeg", ".png", "jiff", ".gif" };
+                        var docsfile = new[] { ".docx", ".pdf", ".ppt", ".pptx" };
+                        if(videofile.Contains(extension))
+                        {
+                            var path = Path.Combine(Server.MapPath("~/Videos/"), name);
+                            file.SaveAs(path);
 
-                        var docs = new FundDocument { Created_at = DateTime.Now, Fundid = fund.Id, Path = name, UserId = getuser };
-                        db.Documents.Add(docs);
-                        db.SaveChanges();
+                            var docs = new FundDocument { Created_at = DateTime.Now, Fundid = fund.Id, Path = name, UserId = getuser, Filetype = "Video" };
+                            db.Documents.Add(docs);
+                            db.SaveChanges();
+                        }
+                        else if(imagefiles.Contains(extension))
+                        {
+                            var path = Path.Combine(Server.MapPath("~/images/"), name);
+                            file.SaveAs(path);
+
+                            var docs = new FundDocument { Created_at = DateTime.Now, Fundid = fund.Id, Path = name, UserId = getuser, Filetype = "Image" };
+                            db.Documents.Add(docs);
+                            db.SaveChanges();
+                        }
+                        else if(docsfile.Contains(extension))
+                        {
+                            var path = Path.Combine(Server.MapPath("~/Documents/"), name);
+                            file.SaveAs(path);
+
+                            var docs = new FundDocument { Created_at = DateTime.Now, Fundid = fund.Id, Path = name, UserId = getuser, Filetype = "Doc" };
+                            db.Documents.Add(docs);
+                            db.SaveChanges();
+                        }
+                        
                     }
                 }
                 
             }
-            return RedirectToAction("ListOfFunds");
+            return RedirectToAction("MyProject");
         }
         
 
@@ -72,8 +185,10 @@ namespace HackathonApp.Controllers
             var db = new ApplicationDbContext();
             FundViewModel viewModel = new FundViewModel();
             viewModel.Documents = new List<SupportingDocument>();
+            viewModel.Comments = new List<CommentViewModel>();
             if(id > 0)
             {
+                var getreact = db.Like.Where(x => x.Fundid == id).FirstOrDefault();
                 var getfund = db.Funds.Where(x => x.Id == id).FirstOrDefault();
                 if(getfund != null)
                 {
@@ -85,6 +200,42 @@ namespace HackathonApp.Controllers
                     viewModel.DateCreated = getfund.DateCreated;
                     viewModel.DateEnd = getfund.DateEnd.Value;
                     viewModel.DateUpdated = getfund.DateUpdated;
+                    viewModel.CountLike = getfund.Counter;
+                    if(getreact != null)
+                    {
+                        viewModel.IsLiked = true;
+                    }
+                    var getcomments = db.Comments.Where(x => x.Fundid == getfund.Id).ToList();
+                    if(getcomments.Count > 0)
+                    {
+                        foreach(var comm in getcomments)
+                        {
+                            var getuser = db.Users.Where(x => x.Id == getfund.Userid).FirstOrDefault();
+                            if (getuser.Image != null)
+                            {
+                                viewModel.Comments.Add(new CommentViewModel
+                                {
+                                    Comment = comm.Comment,
+                                    DateCreated = comm.DateCreated,
+                                    Fullname = getuser.FirstName + " " + getuser.LastName,
+                                    Id = comm.Id,
+                                    Path = getuser.Image
+                                });
+                            }
+                            else
+                            {
+                                viewModel.Comments.Add(new CommentViewModel
+                                {
+                                    Comment = comm.Comment,
+                                    DateCreated = comm.DateCreated,
+                                    Fullname = getuser.FirstName + " " + getuser.LastName,
+                                    Id = comm.Id,
+                                    Path = "user.png"
+                                });
+                            }
+                            
+                        }
+                    }
 
                     var getdocs = db.Documents.Where(x => x.Fundid == getfund.Id).ToList();
                     if(getdocs.Count > 0)
@@ -98,6 +249,30 @@ namespace HackathonApp.Controllers
                 }
             }
             return View(viewModel);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult AddComment(FundViewModel model)
+        {
+            var db = new ApplicationDbContext();
+            var userid = User.Identity.GetUserId();
+
+            if (model.CommentMessage != null)
+            {
+                var comm = new FundComments
+                {
+                    Comment = model.CommentMessage,
+                    DateCreated = DateTime.Now,
+                    Fundid = model.Id,
+                    Userid = userid, 
+                    DateUpdated = DateTime.Now
+                };
+                db.Comments.Add(comm);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("FundDetail", new { id = model.Id });
         }
 
         public FileResult Download(string fileName)
@@ -261,9 +436,11 @@ namespace HackathonApp.Controllers
         }
 
 
-        // Adding money from the funders
-        
-
+        public ActionResult RequestToWithdraw()
+        {
+            var db = new ApplicationDbContext();
+            return View();
+        }
 
     }
 }

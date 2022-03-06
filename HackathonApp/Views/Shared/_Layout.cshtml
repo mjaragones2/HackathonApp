@@ -13,7 +13,7 @@
 
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="box-shadow: 0 2px 5px 0 rgba(67,127,199, 0.56);">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" style="box-shadow: 0 2px 5px 0 rgba(67,127,199, 0.56);">
         <div class="container-fluid">
             @Html.ActionLink("Heand", "Index", "Home", new { area = "" }, new { @class = "navbar-brand appName", @style = "color:#437FC7;" })
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -21,10 +21,18 @@
             </button>
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">@Html.ActionLink("How Does It Work?", "Works", "Home", routeValues: null, htmlAttributes: new { @class = "nav-link", @style = "color:black;" })</li>
-                    <li class="nav-item">@Html.ActionLink("About Us", "About", "Home", routeValues: null, htmlAttributes: new { @class = "nav-link", @style = "color:black;" })</li>
-                    <li class="nav-item">@Html.ActionLink("Featured Funds", "Contact", "Home", routeValues: null, htmlAttributes: new { @class = "nav-link", @style = "color:black;" })</li>
-                    <li class="nav-item">@Html.ActionLink("FAQ`s", "FAQ", "Home", routeValues: null, htmlAttributes: new { @class = "nav-link", @style = "color:black;" })</li>
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">@Html.ActionLink("How Does It Work?", "Works", "Home", routeValues: null, htmlAttributes: new { @class = "nav-link", @style = "color:black;" })</li>
+                        <li class="nav-item">@Html.ActionLink("About Us", "About", "Home", routeValues: null, htmlAttributes: new { @class = "nav-link", @style = "color:black;" })</li>
+                        <li class="nav-item">@Html.ActionLink("Featured Funds", "Contact", "Home", routeValues: null, htmlAttributes: new { @class = "nav-link", @style = "color:black;" })</li>
+                        <li class="nav-item">@Html.ActionLink("FAQ`s", "FAQ", "Home", routeValues: null, htmlAttributes: new { @class = "nav-link", @style = "color:black;" })</li>
+                    }
+                    @if(User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">@Html.ActionLink("My Project", "MyProject", "Fund", routeValues: null, htmlAttributes: new { @class = "nav-link", @style = "color:black;" })</li>
+                    }
+
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

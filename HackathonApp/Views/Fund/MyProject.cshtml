@@ -1,0 +1,66 @@
+﻿@model HackathonApp.Models.HomeViewModel
+
+@{
+    ViewBag.Title = "MyProject";
+}
+
+<div class="section2 py-5" id="hf">
+    <div class="container">
+        <h1 class="py-5">Highlight Fundings</h1>
+        <!--Carousel Wrapper-->
+        <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Request To Withdraw</button>
+        <br />
+        <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
+            <div class="carousel-inner" role="listbox">
+
+                <!--First slide-->
+                <div class="carousel-item active">
+                    @if (Model.FundViews.Count > 0)
+                    {
+                        foreach (var item in Model.FundViews)
+                        {
+                            <div class="col-md-4" style="float:left">
+                                <div class="card mb-3">
+                                    <img class="card-img-top"
+                                         src="@Url.Content("~/images/"+item.Path)" style="width: auto; height: 200px" alt="Card image cap">
+                                    <div class="card-body">
+                                        <h4 class="card-title text-muted text-truncate">@item.Title</h4>
+                                        <p class="card-text text-muted text-truncate">
+                                            @item.Story
+                                        </p>
+                                        <input type="button" class="btn btn-primary btn-lg" id="bt" onclick="location.href = '@Url.Action("FundDetail","Fund", new { id = item.Id })'" value="Donate Now!" />
+                                        @if (item.IsLiked == true)
+                                        {
+                    <img src="~/images/unlike.png" style="cursor: pointer; margin-left: 50px;" onclick="location.href='@Url.Action("IReact", "Home", new { id = item.Id })'" width="40" height="40" />
+                                            @item.CountLike }
+                                                                else
+                                                                {
+                                            <img src="~/images/like.png" style="cursor: pointer; margin-left: 50px; " onclick="location.href='@Url.Action("IReact", "Home", new { id = item.Id })'" width="40" height="40" />
+                                                                    @item.CountLike}
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="py-5">
+                            <button class="btn btn-primary btn-lg" onclick="location.href = '@Url.Action("CreateFundProject","Fund")'">Create Project</button>
+                        </div>
+                    }
+            
+
+
+                </div>
+                <!--/.First slide-->
+
+            </div>
+            <!--/.Slides-->
+
+        </div>
+        <!--/.Carousel Wrapper-->
+        
+
+    </div>
+</div>
+

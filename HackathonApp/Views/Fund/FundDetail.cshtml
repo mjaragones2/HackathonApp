@@ -4,94 +4,119 @@
     ViewBag.Title = "FundDetail";
 }
 
-<div class="section5">
-    <div class="col-md-6 py-5 mx-auto">
-    <div class="contianer">
-    <div class="card shadow-lg border-0">
-        <div class="card-body">
-            <div>
-                @if (Model.Documents.Count > 0 || Model.Documents != null)
-                {
-                    foreach (var doc in Model.Documents)
-                    {
+<div class="section5 py-5">
+    <div class="container py-5">
+        <div class="card">
+            <div class="card-header margin-bottom-5">
+                <h4>
+                    Title:
+                    @Model.Title
+                </h4>
+            </div>
+            <div class="card-body">
+                <h6>Details / Story</h6>
+                <p>@Model.Story</p>
 
-                        if (doc.FileType == "Image")
+                <hr class="style-transparent">
+                <h6>Amount Need</h6>
+                <p>@Model.AmountNeeded</p>
+                <hr class="style-transparent">
+                <h6>Fund Recieve</h6>
+                <p>@Model.AmountAcquired</p>
+                <hr class="style-transparent">
+                <div>
+                    <h6>Images / Videos / Files</h6>
+                    @if (Model.Documents.Count > 0 || Model.Documents != null)
+                    {
+                        foreach (var doc in Model.Documents)
                         {
-                            <img src="@Url.Content("~/Documents/"+ doc.Path)" width="150" />
-                        }
-                        else if (doc.FileType == "Video")
-                        {
-                            <video width="320" height="240" controls>
-                                <source src="@Url.Content("~/Videos/"+doc.Path)" />
-                            </video>
-                        }
-                        else if (doc.FileType == "Doc")
-                        {
-                            @Html.ActionLink(doc.Path, "Download", new { fileName = doc.Path });
+
+                            if (doc.FileType == "Image")
+                            {
+                                <img src="@Url.Content("~/Documents/"+ doc.Path)" width="150" height="150" /> }
+                            else if (doc.FileType == "Video")
+                            {
+                                <video width="320" height="240" controls>
+                                    <source src="@Url.Content("~/Videos/"+doc.Path)" />
+                                </video> 
+                            }
+                            else if (doc.FileType == "Doc")
+                            {
+                                @Html.ActionLink(doc.Path, "Download", new { fileName = doc.Path });
+                            }
                         }
                     }
+                </div>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModal" id="bt">Donate Now!</a>
+                <div class="py-2">
+                    @if (Model.IsLiked == false)
+                    {
+                        <img src="~/images/like.png" style="cursor: pointer; margin-left: 50px; " onclick="location.href='@Url.Action("IReactProject", "Home", new { id = Model.Id })'" width="40" height="40" />
+                    }
+                    else
+                    {
+                        <img src="~/images/unlike.png" style="cursor: pointer; margin-left: 50px;" onclick="location.href='@Url.Action("IReactProject", "Home", new { id = Model.Id })'" width="40" height="40" />
+                    }
+                    @Model.CountLike
+                </div>
+            </div>
+
+        </div>
+        <div class="py-3">
+
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-comments-o"></i> <h3>Comments</h3>
+            </div>
+
+            <!-- FIRST LEVEL COMMENT 1 -->
+            @if (Model.Comments.Count > 0)
+            {
+                foreach (var comm in Model.Comments)
+                {
+                    <div class="card-body">
+                        <div class="article-comment-top">
+                            <div class="comments-user">
+                                <img src="@Url.Content("~/images/"+comm.Path)" width="50px" height="50px" alt="gomac user">
+                                <div class="user-name">@comm.Fullname</div>
+                                <div class="comment-post-date">
+                                    Posted On
+                                    <span class="italics">@comm.DateCreated</span>
+                                </div>
+                            </div>
+                            <div class="comments-content">
+                                <p>
+                                    @comm.Comment
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+
+            <!-- END FIRST LEVEL COMMENT 1 -->
+            <div class="py-3"></div>
+            <!-- LEAVE A REPLY SECTION -->
+            <div class="panel-transparent">
+                <div class="article-heading">
+                    <i class="fa fa-comment-o"></i> Leave a Reply
+                </div>
+                @using (Html.BeginForm("AddComment", "Fund", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <input type="hidden" value="@Model.Id" name="Id" />
+                    <label>Comment:</label>
+                    <textarea rows="2" cols="100" name="CommentMessage"></textarea>
+
+                    <button type="submit" value="Submit" class="btn btn-wide btn-primary">Post Comment</button>
                 }
             </div>
-            <hr />
-            <div class="form-floating mb-3">
-                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-12">
-                    <input type="text" class="form-control" value="@Model.Title" disabled />
-                </div>
-            </div>
-
-            <div class="form-floating mb-3">
-                @Html.LabelFor(model => model.Story, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-12">
-                    <textarea type="text" class="form-control" disabled>@Model.Story</textarea>
-                </div>
-            </div>
-
-            <div class="form-floating mb-3">
-                @Html.LabelFor(model => model.AmountNeeded, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-12">
-                    <input type="text" class="form-control" value="@Model.AmountNeeded" disabled />
-                </div>
-            </div>
-            <div class="form-floating mb-3">
-                @Html.LabelFor(model => model.AmountAcquired, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-12">
-                    <input type="text" class="form-control" value="@Model.AmountAcquired" disabled />
-                </div>
-            </div>
-
-            <div class="form-floating mb-3">
-                @Html.LabelFor(model => model.DateEnd, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-12">
-                    <input type="text" class="form-control" value="@Model.DateEnd" disabled />
-                </div>
-            </div>
-            <div class="form-floating mb-3">
-                @Html.LabelFor(model => model.DateCreated, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-12">
-                    <input type="text" class="form-control" value="@Model.DateCreated" disabled />
-                </div>
-            </div>
-            <div class="form-floating mb-3">
-                @Html.LabelFor(model => model.DateEnd, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-12">
-                    <input type="text" class="form-control" value="@Model.DateUpdated" disabled />
-                </div>
-            </div>
-            <br />
-            <br />
-            <div class="form-group">
-                <div class="col-md-offset-5 col-md-10">
-                    <input type="submit" value="Donate" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary" />
-                </div>
-            </div>
-            <div class="py-3">
-                @Html.ActionLink("Back to List", "Index")
-            </div>
+            <!-- END LEAVE A REPLY SECTION -->
         </div>
     </div>
-</div>
-</div>
 </div>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
