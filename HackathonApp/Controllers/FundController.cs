@@ -209,6 +209,30 @@ namespace HackathonApp.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult AddFund(AddFundViewModel model)
+        {
+            var db = new ApplicationDbContext();
+            var userid = User.Identity.GetUserId();
+            if(ModelState.IsValid)
+            {
+                var getfunddetail = db.Funds.Where(x => x.Id == model.Fundid).FirstOrDefault();
+                getfunddetail.AmountAcquired += model.AmountGiven;
+                db.Entry(getfunddetail).State = EntityState.Modified;
+                db.SaveChanges();
 
+                var fundt = new FundTransaction
+                {
+                    AmountGiven = model.AmountGiven,
+                    DateCreated = DateTime.Now,
+                    Fundid = model.Fundid,
+                    Userid = userid,
+                    Message = model.Message
+                };
+                db.FundTransactions.Add(fundt);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

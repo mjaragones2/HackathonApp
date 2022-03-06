@@ -214,12 +214,28 @@
     <Compile Include="Migrations\202203060140529_UserUpdate.designer.cs">
       <DependentUpon>202203060140529_UserUpdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202203060312282_AddCommission.cs" />
+    <Compile Include="Migrations\202203060312282_AddCommission.designer.cs">
+      <DependentUpon>202203060312282_AddCommission.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202203060326015_AddFundTransaction.cs" />
+    <Compile Include="Migrations\202203060326015_AddFundTransaction.designer.cs">
+      <DependentUpon>202203060326015_AddFundTransaction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202203060332326_AddinEWallet.cs" />
+    <Compile Include="Migrations\202203060332326_AddinEWallet.designer.cs">
+      <DependentUpon>202203060332326_AddinEWallet.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AddFundViewModel.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\ComisssionRate.cs" />
     <Compile Include="Models\Constants.cs" />
+    <Compile Include="Models\EWallet.cs" />
     <Compile Include="Models\Fund.cs" />
     <Compile Include="Models\FundDocument.cs" />
+    <Compile Include="Models\FundTransaction.cs" />
     <Compile Include="Models\FundViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -338,6 +354,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202203060140529_UserUpdate.resx">
       <DependentUpon>202203060140529_UserUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203060312282_AddCommission.resx">
+      <DependentUpon>202203060312282_AddCommission.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203060326015_AddFundTransaction.resx">
+      <DependentUpon>202203060326015_AddFundTransaction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203060332326_AddinEWallet.resx">
+      <DependentUpon>202203060332326_AddinEWallet.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -42,5 +42,8 @@ namespace HackathonApp.Models
         public DbSet<Fund> Funds { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<FundDocument> Documents { get; set; }
+        public DbSet<ComisssionRate> Rate { get; set; }
+        public DbSet<FundTransaction> FundTransactions { get; set; }
+        public DbSet<EWallet> Wallet { get; set; }
     }
 }

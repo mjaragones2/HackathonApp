@@ -87,6 +87,16 @@ namespace HackathonApp.Controllers
             return RedirectToAction("UserAccounts");
         }
 
+        [HttpPost]
+        public ActionResult CreateCommission(ComisssionRate model)
+        {
+            var db = new ApplicationDbContext();
+            model.DateCreated = DateTime.Now;
+            db.Rate.Add(model);
+            db.SaveChanges();
+            return View();
+        }
+
 
     }
 }
