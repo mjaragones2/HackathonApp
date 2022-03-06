@@ -4,86 +4,98 @@
     ViewBag.Title = "CreateFundProject";
 }
 
-<h2>CreateFundProject</h2>
+<head>
+    <script src="~/Scripts/jquery-3.6.0.js"></script>
+</head>
+<div class="section5">
+    <div class="col-md-6 py-5 mx-auto">
+    <div class="contianer">
+    <div class="card shadow-lg border-0">
+        <div class="card-body">
+            @using (Html.BeginForm("CreateFundProject", "Fund", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
 
+                            <h4 class="text-center py-5">Create Fund Project</h4>
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-floating mb-3">
+                                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-@using (Html.BeginForm("CreateFundProject", "Fund", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
-    <h4>FundViewModel</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                            <div class="form-floating mb-3">
+                                @Html.LabelFor(model => model.Story, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-12">
+                                    @Html.TextAreaFor(model => model.Story, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Story, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                @Html.LabelFor(model => model.AmountNeeded, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.AmountNeeded, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.AmountNeeded, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                @Html.LabelFor(model => model.DateEnd, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-12">
+                                    @Html.TextBoxFor(model => model.DateEnd, "{0:yyyy-MM-dd}", new { @class = "form-control input-sm datepicker", @type = "date", min = DateTime.Today.AddDays(1).ToString("yyyy-MM-dd") })
+                                    @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-floating mb-lg-auto mx-auto">
+                                <div class="col-md-8 inputGroupContainer">
+                                    @Html.TextBoxFor(model => model.ImageFile, "", new { @type = "file", @multiple = "multiple" })
+                                </div>
+                            </div>
+                            <div id="showimage">
+
+                            </div>
+                            <br />
+                            <br />
+                            <script>
+                                $(document).ready(function () {
+                                    $("#ImageFile").change(function () {
+
+                                        var previewimages = $("#showimage");
+                                        previewimages.html("");
+                                        $($(this)[0].files).each(function () {
+                                            var file = $(this);
+                                            var reader = new FileReader();
+                                            reader.onload = function (e) {
+                                                var img = $("<img />");
+                                                img.attr("style", "height:150px;width: 150px;");
+                                                img.attr("src", e.target.result);
+                                                previewimages.append(img);
+                                            }
+                                            reader.readAsDataURL(file[0]);
+                                        });
+
+                                    });
+                                });
+                            </script>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-5 col-md-10">
+                                    <input type="submit" value="Create" class="btn btn-primary" />
+                                </div>
+                            </div>       
+             }
+            <div class="py-3">
+                @Html.ActionLink("Back to List", "Index")
+            </div>
         </div>
     </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Story, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextAreaFor(model => model.Story, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Story, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.AmountNeeded, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.AmountNeeded, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.AmountNeeded, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.DateEnd, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(model => model.DateEnd, "{0:yyyy-MM-dd}", new { @class = "form-control input-sm datepicker", @type = "date", min = DateTime.Today.AddDays(1).ToString("yyyy-MM-dd") })
-            @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-8 inputGroupContainer">
-            @Html.TextBoxFor(model => model.ImageFile, "", new { @type = "file", @multiple = "multiple" })
-        </div>
-    </div>
-    <div id="showimage">
-
-    </div>
-    <script>
-        $(document).ready(function () {
-            $("#ImageFile").change(function () {
-
-                var previewimages = $("#showimage");
-                previewimages.html("");
-                $($(this)[0].files).each(function () {
-                    var file = $(this);
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                                    var img = $("<img />");
-                                    img.attr("style", "height:150px;width: 150px;");
-                                    img.attr("src", e.target.result);
-                                    previewimages.append(img);
-                                                }
-                    reader.readAsDataURL(file[0]);
-                });
-
-            });
-        });
-    </script>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
-        </div>
-    </div>
-
 </div>
-}
+</div>
+</div>
 
 <div>
     @Html.ActionLink("Back to List", "Index")

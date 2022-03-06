@@ -17,7 +17,7 @@ namespace HackathonApp.Models
         [Required]
         [Display(Name = "Story")]
         public string Story { get; set; }
-
+        public string FileType { get; set; }
         
         [Required]
         [Display(Name = "Amount Needed")]
@@ -43,6 +43,10 @@ namespace HackathonApp.Models
     {
         public int Id { get; set; }
         public string Path { get; set; }
+        public string FileType { get; set; }
+        public int Fundid { get; set; }
+        public string Userid { get; set; }
+        
     }
 
     public class HomeViewModel

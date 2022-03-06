@@ -300,6 +300,7 @@
     <Content Include="images\like.png" />
     <Content Include="images\logo.png" />
     <Content Include="images\Meet the developers.jpg" />
+    <Content Include="images\Sign up.jpg" />
     <Content Include="images\unlike.png" />
     <Content Include="Profiles\user.png" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -459,6 +460,8 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Home\ViewMoreFunds.cshtml" />
+    <Content Include="Views\Home\FAQ.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

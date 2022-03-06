@@ -9,7 +9,7 @@
         </div>
     </div>
 </div>
-<div class="section2 py-5">
+<div class="section2 py-5" id="hf">
     <div class="container">
         <h1 class="py-5">Highlight Fundings</h1>
         <!--Carousel Wrapper-->
@@ -22,76 +22,93 @@
                     {
                         foreach (var item in Model.FundViews)
                         {
-                            <div class="col-md-4" style="float:left">
-                                <div class="card mb-3">
-                                    <img class="card-img-top"
-                                         src="@Url.Content("~/images/"+item.Path)" style="width: auto; height: 200px"  alt="Card image cap">
-                                    <div class="card-body">
-                                        <h4 class="card-title text-muted text-truncate">@item.Title</h4>
-                                        <p class="card-text text-muted text-truncate">
-                                            @item.Story
-                                        </p>
-                                        <a class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModal" id="bt">Donate Now!</a>
-                                        @if (item.IsLiked == true)
-                                        {
-                                            <img src="~/images/unlike.png" style="cursor: pointer; margin-left: 50px;" onclick="location.href='@Url.Action("IReact", "Home", new { id = item.Id })'" width="40" height="40" />
-                                        }
-                                        else
-                                        {
-                                            <img src="~/images/like.png" style="cursor: pointer; margin-left: 50px; " onclick="location.href='@Url.Action("IReact", "Home", new { id = item.Id })'" width="40" height="40" />
-                                        }
-                                    </div>
-                                </div>
-                            </div>
+        <div class="col-md-4" style="float:left">
+            <div class="card mb-3">
+                <img class="card-img-top"
+                     src="@Url.Content("~/images/"+item.Path)" style="width: auto; height: 200px" alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title text-muted text-truncate">@item.Title</h4>
+                    <p class="card-text text-muted text-truncate">
+                        @item.Story
+                    </p>
+                    <a class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModal" id="bt">Donate Now!</a>
+                    @if (item.IsLiked == true)
+                    {
+<img src="~/images/unlike.png" style="cursor: pointer; margin-left: 50px;" onclick="location.href='@Url.Action("IReact", "Home", new { id = item.Id })'" width="40" height="40" /> }
+                    else
+                    {
+<img src="~/images/like.png" style="cursor: pointer; margin-left: 50px; " onclick="location.href='@Url.Action("IReact", "Home", new { id = item.Id })'" width="40" height="40" />}
+                </div>
+            </div>
+        </div>
 
                             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                              <div class="modal-dialog modal-lg">
-                                  <div class="modal-content">
-                                      <div class="modal-header">
-                                          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                              <span aria-hidden="true">&times;</span>
-                                          </button>
-                                      </div>
-                                      @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                      {
-                                          @Html.HiddenFor(model => model.Id)
-                                          <div class="modal-body">
-                                              @Html.EditorFor(model => model.Message, new { htmlAttributes = new { @class = "form-control", @required = true } })
-                                          </div>
-                                          <div class="modal-body">
-                                              @Html.EditorFor(model => model.AmountGiven, new { htmlAttributes = new { @class = "form-control", @required = true } })
-                                          </div>
-                                          <div class="modal-footer">
-                                              
-                                              <input type="submit" class="btn btn-primary" value="Proceed" />
-                                          </div>
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                        {
+                    @Html.HiddenFor(model => model.Id)
+                                            <div class="modal-body">
+                                                @if (Model.Documents.Count > 0 || Model.Documents != null)
+                                                {
+                                                    foreach (var doc in Model.Documents)
+                                                    {
+                                                        if (doc.FileType == "Image" && doc.Fundid == item.Id)
+                                                        {
+                                                            <img src="@Url.Content("~/images/"+doc.Path)" width="50" />
+                                                        }
+                                                        else if (doc.FileType == "Video" && doc.Fundid == item.Id)
+                                                        {
+                                                            <video width="320" height="240" controls>
+                                                                <source src="@Url.Content("~/Videos/"+doc.Path)" />
+                                                            </video>
+                                                        }
+                                                        else if (doc.FileType == "Doc" && doc.Fundid == item.Id)
+                                                        {
+                                                            @Html.ActionLink(doc.Path, "Download", new { fileName = doc.Path });
+                                                        }
+                                                    }
+                                                }
+                                            </div>
+                                                                    <div class="modal-body">
+                                                                        @Html.EditorFor(model => model.Message, new { htmlAttributes = new { @class = "form-control", @required = true } })
+                                                                    </div>
+                                                                                            <div class="modal-body">
+                                                                                                @Html.EditorFor(model => model.AmountGiven, new { htmlAttributes = new { @class = "form-control", @required = true } })
+                                                                                            </div>
+                                                                                                                    <div class="modal-footer">
 
-                                      }
+                                                                                                                        <input type="submit" class="btn btn-primary" value="Proceed" />
+                                                                                                                    </div>}
 
-                                      
-                                  </div>
-                              </div>
-                            </div>
-                        }
-                    }
+
+                                    </div>
+                                </div>
+                            </div>}
+                                        }
 
 
                 </div>
                 <!--/.First slide-->
-                
+
             </div>
             <!--/.Slides-->
 
         </div>
         <!--/.Carousel Wrapper-->
         <p class="lead py-5">
-            <a href="https://asp.net" class="btn btn-primary btn-lg" id="bt">View More &raquo;</a>
+            <button class="btn btn-primary btn-lg" id="bt" onclick="location.href = '@Url.Action("ViewMoreFunds", "Home")'">View More</button>
         </p>
 
     </div>
 </div>
-<div class="section3 py-5">
+<div class="section3 py-5" id="hiw">
     <div class="container">
         <h1 class="py-5" style="text-align: center;">How it Works</h1>
         <!--Carousel Wrapper-->
@@ -119,7 +136,7 @@
                                 <img class="card-img-top" src="~/images/icon3.png" alt="Card image cap">
                                 <h4 class="card-title">Gain Funds</h4>
                                 <p class="card-text">
-                                    Put all the things that your business needs, from pen, paper to the actual product for transparency of what 
+                                    Put all the things that your business needs, from pen, paper to the actual product for transparency of what
                                     you will be doing to the funds that you need.
                                 </p>
                             </div>
@@ -150,7 +167,7 @@
         <!--/.Carousel Wrapper-->
     </div>
 </div>
-<div class="section4 py-5">
+<div class="section4 py-5" id="au">
     <div class="container">
         <h1 class="py-lg-5" style="text-align: center;">TECH STACK</h1>
         <p class="lead py-lg-5" style="text-align: center;">MEET OUR TEAMS</p>
@@ -208,7 +225,7 @@
                             <img class="card-img-top"
                                  src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(60).jpg" alt="Card image cap">
                             <div class="card-body">
-                                <h4 class="card-title">Aragones</h4>
+                                <h4 class="card-title">Mark</h4>
                                 <p class="card-text">
                                     Some quick example text to build on the card title and make up the bulk of the
                                     card's content.
@@ -227,5 +244,77 @@
 
         </div>
         <!--/.Carousel Wrapper-->
+    </div>
+</div>
+
+<div class="section6" id="faq">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-8 padding-20">
+
+                <!-- ARTICLE CATEGORIES SECTION -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="fb-heading">
+                            <h1>Frequently Asked Questions</h1>
+                        </div>
+                        <hr class="style-three">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div id="accordion">
+                                    <div class="card">
+                                        <div class="card-header" id="headingOne">
+                                            <h5 class="mb-0">
+                                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    How can you donate?
+                                                </button>
+                                            </h5>
+                                        </div>
+
+                                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                            <div class="card-body">
+                                                Choose a business to donate, heand appreciate any amount of donation. The payment method is Paypal.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header" id="headingTwo">
+                                            <h5 class="mb-0">
+                                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                    How do the beneficiary get his/her money?
+                                                </button>
+                                            </h5>
+                                        </div>
+                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                            <div class="card-body">
+                                                The beneficiary will need to set up a Paypal Account. We will be sending the raised funds to your PayPal account.
+                                                Note: Paypal transfer fee will automatically be deducted on the amount withdrawn.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header" id="headingThree">
+                                            <h5 class="mb-0">
+                                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                    Are there any fees?
+                                                </button>
+                                            </h5>
+                                        </div>
+                                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                                            <div class="card-body">
+                                                Yes, a total fee of 2% will be deducted on the successful funds that the beneficiary will raise. To maintain Heand's service?? Hahaha di ko kasentence huhu
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END ARTICLES CATEOGIRES SECTION -->
+        </div>
     </div>
 </div>

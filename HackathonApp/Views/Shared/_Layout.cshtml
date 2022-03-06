@@ -21,21 +21,16 @@
             </button>
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">@Html.ActionLink("How it works?", "Index", "Home", new { area = "" }, new { @class = "nav-link", @style = "color:black;" })</li>
-                    <li class="nav-item">@Html.ActionLink("Raise a fund now", "About", "Home", new { area = "" }, new { @class = "nav-link", @style = "color:black;" })</li>
-                    <li class="nav-item">@Html.ActionLink("Give a helping hand", "Contact", "Home", new { area = "" }, new { @class = "nav-link", @style = "color:black;" })</li>
+                    <li class="nav-item"><a class="nav-link" href="#hiw" style="color:black;">How it Works?</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#au" style="color:black;">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#hf" style="color:black;">Featured Funds</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#faq" style="color:black;">FAQ's</a></li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </nav>
     @RenderBody()
-    @*<div class="page-footer font-small blue pt-4">
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>*@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
