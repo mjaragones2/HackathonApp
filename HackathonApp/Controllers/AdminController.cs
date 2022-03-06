@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,7 +10,7 @@ using Constants = HackathonApp.Models.Constants;
 
 namespace HackathonApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         // GET: Admin
@@ -28,11 +29,64 @@ namespace HackathonApp.Controllers
             {
                 foreach(var user in getusers)
                 {
-                    model.Add(new RegisterViewModel { Address = user.Address, Bdate = user.Bdate, Contact = user.PhoneNumber, Email = user.Email, FirstName = user.FirstName, LastName = user.LastName });
+                    model.Add(new RegisterViewModel { Address = user.Address, Bdate = user.Bdate, Contact = user.PhoneNumber, Email = user.Email, FirstName = user.FirstName, LastName = user.LastName, Created_at = user.DateCreated, Updated_at = user.DateUpdated, Userid = user.Id, IsLocked = user.IsDelete });
                 }
             }
 
-            return View();
+            return View(model);
         }
+
+        public ActionResult UserDetail(string id)
+        {
+            var db = new ApplicationDbContext();
+            UserViewModel model = new UserViewModel();
+            if (!String.IsNullOrEmpty(id))
+            {
+                var getdetail = db.Users.Where(x => x.Id == id).FirstOrDefault();
+                if(getdetail != null)
+                {
+                    model.Userid = getdetail.Id;
+                    model.Address = getdetail.Address;
+                    model.Bdate = getdetail.Bdate;
+                    model.Contact = getdetail.PhoneNumber;
+                    model.Created_at = getdetail.DateCreated;
+                    model.Updated_at = getdetail.DateUpdated;
+                    model.FirstName = getdetail.FirstName;
+                    model.LastName = getdetail.LastName;
+                    model.ProfilePic = getdetail.Image;
+                    model.Email = getdetail.Email;
+                    model.IsLocked = getdetail.IsDelete;
+                }
+            }
+            return View(model);
+        }
+
+        public ActionResult Deactivate(string id)
+        {
+            var db = new ApplicationDbContext();
+            if(!String.IsNullOrEmpty(id))
+            {
+                var getdetail = db.Users.Where(x => x.Id == id).FirstOrDefault();
+                getdetail.IsDelete = true;
+                db.Entry(getdetail).State = EntityState.Modified;
+                db.SaveChanges();
+            }    
+            return RedirectToAction("UserAccounts");
+        }
+
+        public ActionResult Activate(string id)
+        {
+            var db = new ApplicationDbContext();
+            if (!String.IsNullOrEmpty(id))
+            {
+                var getdetail = db.Users.Where(x => x.Id == id).FirstOrDefault();
+                getdetail.IsDelete = false;
+                db.Entry(getdetail).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            return RedirectToAction("UserAccounts");
+        }
+
+
     }
 }

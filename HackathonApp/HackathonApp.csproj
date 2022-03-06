@@ -289,13 +289,14 @@
     <Content Include="Views\Fund\ListOfFunds.cshtml" />
     <Content Include="Views\Fund\FundDetail.cshtml" />
     <Content Include="Views\Fund\EditFundDetail.cshtml" />
+    <Content Include="Views\Admin\UserAccounts.cshtml" />
+    <Content Include="Views\Admin\UserDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Documents\" />
     <Folder Include="images\" />
     <Folder Include="NewFolder1\" />
-    <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

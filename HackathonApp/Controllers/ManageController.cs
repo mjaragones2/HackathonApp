@@ -69,6 +69,7 @@ namespace HackathonApp.Controllers
                 model.LastName = showuser.LastName;
                 model.ProfilePic = showuser.Image;
                 
+                
             }
             return View(model);
         }

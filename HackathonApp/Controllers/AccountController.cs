@@ -60,11 +60,17 @@ namespace HackathonApp.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            var userid = User.Identity.GetUserId();
+            if(userid != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if(Session["ErrorMessage"] != null)
             {
                 ViewBag.ErrorMessage = Session["ErrorMessage"].ToString();
                 ModelState.AddModelError("", Session["ErrorMessage"].ToString());
             }
+            
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -91,6 +97,12 @@ namespace HackathonApp.Controllers
                 {
                     AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
                     ModelState.AddModelError("Email", "This email needs to be confirmed before logging in.");
+                    return View(model);
+                }
+                if(user.IsDelete == true)
+                {
+                    AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                    ModelState.AddModelError("", "Your account has been temporarily deactivated.");
                     return View(model);
                 }
             }
@@ -176,7 +188,7 @@ namespace HackathonApp.Controllers
             }
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Address = model.Address, Bdate = model.Bdate, FirstName = model.FirstName, LastName = model.LastName, PhoneNumber = model.Contact, DateCreated = DateTime.Now, DateUpdated = DateTime.Now };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Address = model.Address, Bdate = model.Bdate, FirstName = model.FirstName, LastName = model.LastName, PhoneNumber = model.Contact, DateCreated = DateTime.Now, DateUpdated = DateTime.Now, IsDelete = false };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -490,6 +502,7 @@ namespace HackathonApp.Controllers
 
         private ActionResult RedirectToLocal(string returnUrl)
         {
+            
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);

@@ -118,7 +118,46 @@ namespace HackathonApp.Models
         public string Address { get; set; }
         public string ProfilePic { get; set; }
         [Display(Name = "Upload Profile")]
+
+        public DateTime? Created_at { get; set; }
+        public DateTime? Updated_at { get; set; }
+
+        public string Userid { get; set; }
+        public bool IsLocked { get; set; }
         public HttpPostedFileBase ImageFile { get; set; }
+    }
+
+    public class UserViewModel
+    {
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "First Name")]
+        [RegularExpression(@"^[a-zA-Z''-'\s]{1,40}$", ErrorMessage = "Special characters are not allowed.")]
+        public string FirstName { get; set; }
+        [Required]
+        [Display(Name = "Last Name")]
+        [RegularExpression(@"^[a-zA-Z''-'\s]{1,40}$", ErrorMessage = "Special characters are not allowed.")]
+        public string LastName { get; set; }
+        [Required]
+        [Display(Name = "Contact")]
+        public string Contact { get; set; }
+        [Required]
+        [Display(Name = "Birth Date")]
+        [DataType(DataType.Date)]
+        public DateTime? Bdate { get; set; }
+        public string Address { get; set; }
+
+        public string ProfilePic { get; set; }
+
+        public DateTime? Created_at { get; set; }
+        public DateTime? Updated_at { get; set; }
+
+        public string Userid { get; set; }
+        public bool IsLocked { get; set; }
     }
 
     public class ResetPasswordViewModel
