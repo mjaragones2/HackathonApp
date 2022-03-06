@@ -125,6 +125,7 @@ namespace HackathonApp.Controllers
                     });
                 }
             }
+
             return View(model);
         }
 
