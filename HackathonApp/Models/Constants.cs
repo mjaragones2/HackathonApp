@@ -11,5 +11,6 @@ namespace HackathonApp.Models
         public const string Funder = "Funder";
         public const string FundBe = "Fund Beneficiary";
         public const string ConsUser = "User";
+        public const string Adminemail = "techstack.heand123@gmail.com";
     }
 }

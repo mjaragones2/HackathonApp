@@ -132,6 +132,7 @@ namespace HackathonApp.Controllers
             {
                 getuser.Image = "user.png";
             }
+            getuser.DateUpdated = DateTime.Now;
             db.Entry(getuser).State = EntityState.Modified;
             db.SaveChanges();
 

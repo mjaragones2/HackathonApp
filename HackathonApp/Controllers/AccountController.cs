@@ -176,7 +176,7 @@ namespace HackathonApp.Controllers
             }
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Address = model.Address, Bdate = model.Bdate, FirstName = model.FirstName, LastName = model.LastName, PhoneNumber = model.Contact };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Address = model.Address, Bdate = model.Bdate, FirstName = model.FirstName, LastName = model.LastName, PhoneNumber = model.Contact, DateCreated = DateTime.Now, DateUpdated = DateTime.Now };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
