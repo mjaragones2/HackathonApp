@@ -15,7 +15,7 @@ namespace HackathonApp.Models
         [Required]
         public string Message { get; set; }
         [Required]
-        public decimal? AmountGiven { get; set; }
+        public decimal AmountGiven { get; set; }
         public DateTime? DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }
         public string FunderName { get; set; }

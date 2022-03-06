@@ -46,5 +46,6 @@ namespace HackathonApp.Models
         public DbSet<FundTransaction> FundTransactions { get; set; }
         public DbSet<EWallet> Wallet { get; set; }
         public DbSet<FundComments> Comments { get; set; }
+        public DbSet<WithdrawRequest> WithdrawReq { get; set; }
     }
 }

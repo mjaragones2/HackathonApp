@@ -114,7 +114,7 @@ namespace HackathonApp.Controllers
                     var funder = db.Users.Where(x => x.Id == tran.Userid).FirstOrDefault();
                     model.Add(new AddFundViewModel
                     {
-                        AmountGiven = tran.AmountGiven,
+                        AmountGiven = (decimal)tran.AmountGiven,
                         BenefName = benefUser.FirstName + " " + benefUser.LastName,
                         Message = tran.Message,
                         Fundid = tran.Fundid,

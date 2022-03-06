@@ -238,6 +238,10 @@
     <Compile Include="Migrations\202203060355599_UpdateFundTrans.designer.cs">
       <DependentUpon>202203060355599_UpdateFundTrans.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202203060457271_AddingWithdrawReq.cs" />
+    <Compile Include="Migrations\202203060457271_AddingWithdrawReq.designer.cs">
+      <DependentUpon>202203060457271_AddingWithdrawReq.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AddFundViewModel.cs" />
@@ -253,6 +257,8 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PaypalConfiguration.cs" />
+    <Compile Include="Models\WithdrawPaypalView.cs" />
+    <Compile Include="Models\WithdrawRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -384,6 +390,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202203060355599_UpdateFundTrans.resx">
       <DependentUpon>202203060355599_UpdateFundTrans.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203060457271_AddingWithdrawReq.resx">
+      <DependentUpon>202203060457271_AddingWithdrawReq.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
