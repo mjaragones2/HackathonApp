@@ -30,6 +30,7 @@ namespace HackathonApp.Models
         public DateTime DateEnd { get; set; }
         public DateTime? DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }
+        public string Path { get; set; }
         public HttpPostedFileBase[] ImageFile { get; set; }
         public IList<SupportingDocument> Documents { get; set; }
     }

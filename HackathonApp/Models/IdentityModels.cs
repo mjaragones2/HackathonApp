@@ -47,5 +47,6 @@ namespace HackathonApp.Models
         public DbSet<EWallet> Wallet { get; set; }
         public DbSet<FundComments> Comments { get; set; }
         public DbSet<WithdrawRequest> WithdrawReq { get; set; }
+        public DbSet<LikeReact> Like { get; set; }
     }
 }

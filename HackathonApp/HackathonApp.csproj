@@ -242,11 +242,16 @@
     <Compile Include="Migrations\202203060457271_AddingWithdrawReq.designer.cs">
       <DependentUpon>202203060457271_AddingWithdrawReq.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202203060508257_AddLike.cs" />
+    <Compile Include="Migrations\202203060508257_AddLike.designer.cs">
+      <DependentUpon>202203060508257_AddLike.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AddFundViewModel.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\ComisssionRate.cs" />
+    <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\EWallet.cs" />
     <Compile Include="Models\Fund.cs" />
@@ -255,6 +260,7 @@
     <Compile Include="Models\FundTransaction.cs" />
     <Compile Include="Models\FundViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\LikeReact.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PaypalConfiguration.cs" />
     <Compile Include="Models\WithdrawPaypalView.cs" />
@@ -393,6 +399,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202203060457271_AddingWithdrawReq.resx">
       <DependentUpon>202203060457271_AddingWithdrawReq.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203060508257_AddLike.resx">
+      <DependentUpon>202203060508257_AddLike.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
