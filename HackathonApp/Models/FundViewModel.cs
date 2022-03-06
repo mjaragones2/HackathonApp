@@ -32,7 +32,10 @@ namespace HackathonApp.Models
         public DateTime? DateUpdated { get; set; }
         public string Path { get; set; }
         public HttpPostedFileBase[] ImageFile { get; set; }
+        public string CommentMessage { get; set; }
         public IList<SupportingDocument> Documents { get; set; }
+        public IList<LikeReact> LikeReacts { get; set; }
+        public IList<CommentViewModel> Comments { get; set; }
     }
 
     public class SupportingDocument

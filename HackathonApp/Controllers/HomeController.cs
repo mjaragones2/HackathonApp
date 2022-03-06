@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -53,16 +54,59 @@ namespace HackathonApp.Controllers
             return View();
         }
 
+        [Authorize]
         [HttpPost]
-        public ActionResult AddComment(CommentViewModel model)
+        public ActionResult AddComment(FundViewModel model)
         {
             var db = new ApplicationDbContext();
             var userid = User.Identity.GetUserId();
 
-
+            if(model.CommentMessage != null)
+            {
+                var comm = new FundComments
+                {
+                    Comment = model.CommentMessage,
+                    DateCreated = DateTime.Now,
+                    Fundid = model.Id,
+                    Userid = userid
+                };
+                db.Comments.Add(comm);
+                db.SaveChanges();
+            }
 
             return RedirectToAction("Index");
         }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult IReact(FundViewModel model)
+        {
+            var db = new ApplicationDbContext();
+            var userid = User.Identity.GetUserId();
+            if(model.Id > 0)
+            {
+                var checkreact = db.Like.Where(x => x.Userid == userid && x.Fundid == model.Id).FirstOrDefault();
+                if(checkreact == null || checkreact.IsLiked == false)
+                {
+                    var react = new LikeReact
+                    {
+                        Fundid = model.Id,
+                        IsLiked = true,
+                        Userid = userid
+                    };
+                    db.Like.Add(react);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    checkreact.IsLiked = false;
+                    db.Entry(checkreact).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
