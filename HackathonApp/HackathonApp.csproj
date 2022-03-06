@@ -283,6 +283,8 @@
     <Content Include="Views\Manage\EditProfile.cshtml" />
     <Content Include="Views\Fund\CreateFundProject.cshtml" />
     <Content Include="Views\Fund\ListOfFunds.cshtml" />
+    <Content Include="Views\Fund\FundDetail.cshtml" />
+    <Content Include="Views\Fund\EditFundDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

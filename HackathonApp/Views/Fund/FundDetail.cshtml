@@ -1,0 +1,83 @@
+﻿@model HackathonApp.Models.FundViewModel
+
+@{
+    ViewBag.Title = "FundDetail";
+}
+
+<h2>FundDetail</h2>
+
+<div>
+    <h4>FundViewModel</h4>
+    <hr />
+    <div>
+        @if(Model.Documents.Count > 0 || Model.Documents != null)
+        {
+            foreach(var doc in Model.Documents)
+            {
+                <img src="@Url.Content("~/Documents/"+ doc.Path)" width="150" />
+            }
+        }
+    </div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Story)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Story)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmountNeeded)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmountNeeded)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmountAcquired)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmountAcquired)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateEnd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateEnd)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateCreated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateUpdated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateUpdated)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "EditFundDetail", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

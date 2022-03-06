@@ -42,7 +42,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.DateEnd, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.TextBoxFor(model => model.DateEnd, "{0:yyyy-MM-dd}", new { @class = "form-control input-sm datepicker", @type = "date", placeholder = "Date of Birth", min = DateTime.Today.AddDays(1).ToString("yyyy-MM-dd") })
+            @Html.TextBoxFor(model => model.DateEnd, "{0:yyyy-MM-dd}", new { @class = "form-control input-sm datepicker", @type = "date", min = DateTime.Today.AddDays(1).ToString("yyyy-MM-dd") })
             @Html.ValidationMessageFor(model => model.DateEnd, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -51,6 +51,30 @@
             @Html.TextBoxFor(model => model.ImageFile, "", new { @type = "file", @multiple = "multiple" })
         </div>
     </div>
+    <div id="showimage">
+
+    </div>
+    <script>
+        $(document).ready(function () {
+            $("#ImageFile").change(function () {
+
+                var previewimages = $("#showimage");
+                previewimages.html("");
+                $($(this)[0].files).each(function () {
+                    var file = $(this);
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                                    var img = $("<img />");
+                                    img.attr("style", "height:150px;width: 150px;");
+                                    img.attr("src", e.target.result);
+                                    previewimages.append(img);
+                                                }
+                    reader.readAsDataURL(file[0]);
+                });
+
+            });
+        });
+    </script>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
