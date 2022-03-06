@@ -4,46 +4,33 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    <script src="~/Scripts/jquery-3.6.0.js"></script>
+    <link rel="stylesheet" href="~/Content/style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@800&display=swap" rel="stylesheet">
-    <style>
-        .appName {
-            font-family: 'Rubik', sans-serif;
-        }
-
-        .nav-link {
-            color: black;
-        }
-    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik One">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
 <body>
-    <div class="navbar navbar-fixed-top" style="background-color: white; box-shadow: 0 2px 5px 0 rgba(67,127,199, 0.56); ">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Heand", "Index", "Home", new { area = "" }, new { @class = "navbar-brand appName" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("How it works?", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Raise a fund now", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Give a helping hand", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="box-shadow: 0 2px 5px 0 rgba(67,127,199, 0.56);">
+        <div class="container-fluid">
+            @Html.ActionLink("Heand", "Index", "Home", new { area = "" }, new { @class = "navbar-brand appName", @style = "color:#437FC7;" })
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">@Html.ActionLink("How it works?", "Index", "Home", new { area = "" }, new { @class = "nav-link", @style = "color:black;" })</li>
+                    <li class="nav-item">@Html.ActionLink("Raise a fund now", "About", "Home", new { area = "" }, new { @class = "nav-link", @style = "color:black;" })</li>
+                    <li class="nav-item">@Html.ActionLink("Give a helping hand", "Contact", "Home", new { area = "" }, new { @class = "nav-link", @style = "color:black;" })</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
+    </nav>
+    @RenderBody()
+    <div class="page-footer font-small blue pt-4">
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
